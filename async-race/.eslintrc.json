@@ -39,6 +39,8 @@
     "no-console": 0,
     "import/order": 0,
     "import/no-absolute-path": 0,
+    "no-restricted-syntax": 0,
+    "no-prototype-builtins": 0,
     "@typescript-eslint/explicit-member-accessibility": [
       "error",
       {

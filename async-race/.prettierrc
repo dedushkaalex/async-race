@@ -4,5 +4,14 @@
   "singleQuote": true,
   "tabWidth": 2,
   "semi": true,
-  "trailingComma": "none"
+  "trailingComma": "none",
+  "importOrder": [
+    "<THIRD_PARTY_MODULES>",
+    "^@components/(.*)$",
+    "^[./]",
+    "^../(.*)",
+    "^./(.*)"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }
