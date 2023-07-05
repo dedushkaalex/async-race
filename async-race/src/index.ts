@@ -1,3 +1,6 @@
-import { component } from 'app';
+/* eslint-disable prettier/prettier */
+import { Router } from 'app/routes/router';
+import { Home } from 'pages/Home/Home';
 
-document.body.prepend(component.node);
+new Router();
+document.body.prepend(Home.node);
