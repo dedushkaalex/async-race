@@ -71,5 +71,5 @@
     },
     "extensions": [".ts"]
   },
-  "ignorePatterns": ["vite.config.ts"]
+  "ignorePatterns": ["vite.config.ts", "UIKit"]
 }

@@ -1,1 +1,1 @@
-import './styles/style.scss';
+import '@shared/UIKit/style.scss';

@@ -11,6 +11,7 @@ export default defineConfig({
     alias: [
       { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
       { find: '@components', replacement: fileURLToPath(new URL('./src/components/', import.meta.url)) },
+      { find: '@shared', replacement: fileURLToPath(new URL('./src/shared/', import.meta.url)) },
       // { find: '@assets', replacement: fileURLToPath(new URL('./src/shared/assets', import.meta.url)) },
       // { find: '@cmp', replacement: fileURLToPath(new URL('./src/shared/cmp', import.meta.url)) },
       // { find: '@stores', replacement: fileURLToPath(new URL('./src/shared/stores', import.meta.url)) },

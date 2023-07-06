@@ -6,7 +6,7 @@ interface IProps<T extends keyof HTMLElementTagNameMap> {
   tagName?: T;
   className?: string[];
   textContent?: string;
-  attrs: null | ComponentAttributes;
+  attrs?: null | ComponentAttributes;
   children?: BaseComponent<keyof HTMLElementTagNameMap>[];
 }
 

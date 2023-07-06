@@ -1,19 +1,26 @@
-import { Home } from 'pages/Home/Home';
-import { BaseComponent } from 'shared/base-component/BaseComponent';
+// import { Garage } from 'pages/Garage/Garage';
+// import { BaseComponent } from 'shared/base-component/BaseComponent';
 
-export type Routes<T extends keyof HTMLElementTagNameMap> = {
-  path: string;
-  component: BaseComponent<T>;
-};
+// enum ROUTES {
+//   '/about': About,
+//   '/': Garage,
+//   '*': NotFound,
+// }
 
-export const ROUTES: Routes<keyof HTMLElementTagNameMap>[] = [
-  {
-    path: '/',
-    component: Home
-  },
 
-  {
-    path: '/about',
-    component: Home
-  }
-];
+// export type Routes<T extends keyof HTMLElementTagNameMap> = {
+//   path: string;
+//   component: BaseComponent<T>;
+// };
+
+// export const ROUTES: Routes<keyof HTMLElementTagNameMap>[] = [
+//   {
+//     path: '/',
+//     component: Garage
+//   },
+
+//   {
+//     path: '/about',
+//     component: Garage
+//   }
+// ];

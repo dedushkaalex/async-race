@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Router } from 'app/routes/router';
-import { Home } from 'pages/Home/Home';
+import { NewCar } from 'entities/Car/ui/new-car';
+import { Home } from 'pages/Garage/Garage';
 
-new Router();
-document.body.prepend(Home.node);
+(document.getElementById('app') as HTMLElement).append(new NewCar().node);
