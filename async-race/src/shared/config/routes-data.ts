@@ -1,26 +1,26 @@
-// import { Garage } from 'pages/Garage/Garage';
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+// import { GaragePage, WinnersPage } from 'pages';
 // import { BaseComponent } from 'shared/base-component/BaseComponent';
 
-// enum ROUTES {
-//   '/about': About,
-//   '/': Garage,
-//   '*': NotFound,
-// }
+// // enum ROUTES {
+// //   '/about' = About,
+// //   '/' = Garage,
+// //   '*' = NotFound,
+// // }
 
-
-// export type Routes<T extends keyof HTMLElementTagNameMap> = {
+// export type Routes<T typeof BaseComponent> = {
 //   path: string;
-//   component: BaseComponent<T>;
+//   component: typeof BaseComponent;
 // };
 
-// export const ROUTES: Routes<keyof HTMLElementTagNameMap>[] = [
+// export const ROUTES: Routes[] = [
 //   {
 //     path: '/',
-//     component: Garage
+//     component: () => new GaragePage()
 //   },
 
 //   {
-//     path: '/about',
-//     component: Garage
+//     path: '/winners',
+//     component: () => new WinnersPage()
 //   }
 // ];
