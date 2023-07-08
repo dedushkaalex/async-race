@@ -16,7 +16,9 @@
     /*aliases*/
     "baseUrl": "src",
     "paths": {
-      "@shared/*": ["shared/*"]
+      "@styles/*": ["styles/*"],
+      "@components/*": ["components/*"],
+      "@core/*": ["core/*"]
     },
 
     /* Linting */
