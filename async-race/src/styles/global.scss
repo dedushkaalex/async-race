@@ -1,0 +1,10 @@
+$bg-gray: #807b7b;
+$text-black: #111010;
+body {
+  color: $text-black;
+  font-weight: bold;
+}
+#app {
+  background-color: $bg-gray;
+  height: 100vh;
+}
