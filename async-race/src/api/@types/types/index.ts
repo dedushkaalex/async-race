@@ -1,6 +1,11 @@
-import { CarServer } from '../interface';
+import { CarServer, WinnersServer } from '../interface';
 
 export type AllCars = {
   cars: CarServer[];
-  total: string | null;
+  total: number | null;
+};
+
+export type AllWinners = {
+  cars: WinnersServer[];
+  total: number | null;
 };

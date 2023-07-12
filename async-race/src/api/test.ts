@@ -3,9 +3,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 /* eslint-disable no-underscore-dangle */
-import type { CorsConfig, HTTPMethods, HeadersConfig } from 'api/globalTypes';
+// import type { CorsConfig, HTTPMethods, HeadersConfig } from 'api/globalTypes';
 
-const BASE_URL = 'http://127.0.0.1:3000';
+// const BASE_URL = 'http://127.0.0.1:3000';
 
 interface HttpResponse<T> extends Response {
   data?: T;
