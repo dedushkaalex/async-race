@@ -1,0 +1,30 @@
+@keyframes carUp {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-35deg);
+  }
+}
+
+@keyframes spin-right-circle-disk {
+  0% {
+    transform: rotate(0deg);
+    transform-origin: 838.99px 551.07px;
+    
+  }
+  100% {
+    transform: rotate(360deg);
+    transform-origin: 838.99px 551.07px;
+  }
+}
+@keyframes spin-left-circle-disk {
+  0% {
+    transform: rotate(0deg);
+    transform-origin: 261.99px 549.07px;
+  }
+  100% {
+    transform: rotate(360deg);
+    transform-origin: 261.99px 549.07px;
+  }
+}

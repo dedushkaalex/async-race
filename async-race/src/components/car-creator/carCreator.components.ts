@@ -11,7 +11,7 @@ import {
   updateCarBtn,
   updateCarInput
 } from './model/car.components';
-import styles from './style.module.scss';
+import styles from './styles.module.scss';
 
 export class CarCreator extends BaseComponent<'section'> {
   public createCarInput = createCarInput;

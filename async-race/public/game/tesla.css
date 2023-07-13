@@ -1,0 +1,134 @@
+@import url("./animate-tesla.css");
+
+.car {
+  max-width: 500px;
+}
+/*окно, фары, бампер*/
+.st0 {
+  fill: #847f7f;
+}
+/* лобовуха */
+.st1 {
+  fill: #5a5555;
+}
+/* кузов */
+.st2 {
+  fill: #d8d8d8;
+}
+/* рамка над окном */
+.st3 {
+  fill: #9c0d0d;
+}
+/* пороги */
+.st4 {
+  fill: #5a1818;
+}
+
+/*передний бампер*/
+.st5 {
+  fill: #6d6e6c;
+}
+
+/* передняя фара */
+.st6 {
+  fill: #ce4409;
+  filter: drop-shadow(0 0 55px #558ed1);
+}
+
+/* свет от солнца зад*/
+.st7 {
+  fill: #8b5b5b;
+}
+
+/* рамка над колесами */
+.st8 {
+  fill: #e8e8e8;
+}
+
+/* задний кузов */
+.st9 {
+  fill: #b6b7b7;
+}
+
+/*свет от солнца перед*/
+.st10 {
+  fill: #fcfcfc;
+}
+
+/* крыша контур */
+.st11 {
+  fill: none;
+  stroke: #000000;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+}
+
+/*окно низ контур*/
+.st12 {
+  fill: none;
+  stroke: #5f2828;
+  stroke-miterlimit: 10;
+}
+
+/* кузов контур */
+.st13 {
+  fill: #dddddd;
+}
+.st14 {
+  fill: none;
+  stroke: #686868;
+  stroke-miterlimit: 10;
+}
+.st15 {
+  fill: none;
+  stroke: #000000;
+  stroke-miterlimit: 10;
+}
+
+/*цвет колес*/
+.st16 {
+  fill: #e78f38;
+  stroke: #333333;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+}
+/*цвет дисков внутри колес*/
+.st17 {
+  fill: #b22828;
+}
+
+/*цвет дисков колес*/
+.st18 {
+  fill: #d310c6;
+}
+g.right-circle-disk {
+  animation: spin-right-circle-disk 0.2s linear infinite;
+}
+g.left-circle-disk {
+  animation: spin-left-circle-disk 0.2s linear infinite;
+}
+/*контур дисков*/
+.st19 {
+  fill: #838787;
+}
+.st20 {
+  fill: #6b6b6b;
+}
+.st21 {
+  fill: #040000;
+}
+.st22 {
+  fill: #099494;
+}
+.st23 {
+  fill: #818484;
+}
+.st24 {
+  fill: none;
+  stroke: #9f9fa0;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+}
+.st25 {
+  fill: #686868;
+}

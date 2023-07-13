@@ -1,0 +1,21 @@
+@keyframes spin-right-circle-disk {
+  0% {
+    transform: rotate(0deg);
+    transform-origin: 836.95px 492.97px;
+    
+  }
+  100% {
+    transform: rotate(360deg);
+    transform-origin: 836.95px 492.97px;
+  }
+}
+@keyframes spin-left-circle-disk {
+  0% {
+    transform: rotate(0deg);
+    transform-origin: 169.78px 482.5px;
+  }
+  100% {
+    transform: rotate(360deg);
+    transform-origin: 169.78px 482.5px;
+  }
+}

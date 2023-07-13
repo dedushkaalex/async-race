@@ -1,8 +1,10 @@
-import { Button } from '@components/ui/button/button.component';
-import { Input } from '@components/ui/input/input.components';
+import styles from '../styles.module.scss';
+
+import { Button } from 'ui/button/button.component';
+import { Input } from 'ui/input/input.component';
 
 export const createCarInput = new Input({
-  className: ['input', 'is-hovered'],
+  className: [styles.field],
   attrs: {
     type: 'text',
     placeholder: 'create car'
@@ -10,7 +12,7 @@ export const createCarInput = new Input({
 });
 
 export const updateCarInput = new Input({
-  className: ['input', 'is-hovered'],
+  className: [styles.field],
   attrs: {
     type: 'text',
     placeholder: 'update car name...'
@@ -35,30 +37,30 @@ export const colorUpdatePickerCarInput = new Input({
 
 export const createCarBtn = new Button({
   tagName: 'button',
-  className: ['button', 'is-primary', 'is-light'],
+  className: [styles.button, styles.green],
   textContent: 'Create'
 });
 
 export const updateCarBtn = new Button({
   tagName: 'button',
-  className: ['button', 'is-primary', 'is-light'],
+  className: [styles.button, styles.purple],
   textContent: 'Update'
 });
 
 export const rageAllBtn = new Button({
   tagName: 'button',
-  className: ['button', 'is-danger'],
+  className: [styles.button],
   textContent: 'Rage'
 });
 
 export const resetBtn = new Button({
   tagName: 'button',
-  className: ['button', 'is-warning'],
+  className: [styles.button],
   textContent: 'Reset'
 });
 
 export const generateBtn = new Button({
   tagName: 'button',
-  className: ['button', 'is-primary'],
+  className: [styles.button],
   textContent: 'Generate Car'
 });

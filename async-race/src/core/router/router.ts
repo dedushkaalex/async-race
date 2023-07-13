@@ -1,6 +1,7 @@
+/* eslint-disable new-cap */
 import { BaseComponent } from '@core/base-component/BaseComponent';
-import { Layout } from 'components/layout/layout.component';
-import { NotFound } from 'components/screens/not-found/not-found.component';
+import { Layout } from '@layout/layout.component';
+import { NotFound } from '@screens/not-found/not-found.component';
 
 import { ROUTES, TRoutes } from './routes.data';
 
@@ -29,7 +30,6 @@ export class Router {
       const target = (e.target as HTMLAnchorElement).closest('a');
       if (target) {
         e.preventDefault();
-        console.log(target);
 
         const link = target.href.match(/\/([^\\/]+)$/g) || '/';
         if (link) {
@@ -42,11 +42,8 @@ export class Router {
   }
 
   private navigate(path: string): void {
-    console.log(this.getCurrentPath(), path);
-
     if (this.getCurrentPath() !== path) {
       window.history.pushState({}, '', path);
-      console.log(window.history);
 
       this.handleRouteChange();
     }
@@ -55,7 +52,6 @@ export class Router {
     const path = this.getCurrentPath() || '/';
 
     let route = this.routes.find((r) => r.path === path);
-    console.log(route);
 
     if (!route) {
       route = {
@@ -72,7 +68,6 @@ export class Router {
       return;
     }
     const component = new this.currentRoute.component();
-    console.log(component);
 
     if (!this.layout) {
       this.layout = new Layout(component.render());

@@ -1,0 +1,146 @@
+@import 'src/styles/variables';
+@import 'src/styles/mixins';
+
+
+.car {
+  position: relative;
+  padding-top: 10px;
+  width: 100%;
+
+   .car__buttons {
+    display: flex;
+    column-gap: 10px;
+   padding-top: 20px;
+  }
+}
+.car__navigator {
+  display: flex;
+  align-items: end;
+}
+.carName {
+  font-weight: bold;
+  letter-spacing: 0.03rem;
+  display: inline-block;
+  padding-left: 15px;
+  font-size: 1.5rem;
+}
+.button {
+  @include transition(background-color);
+  background-color: $gray;
+  color: $white;
+  border-radius: $radius;
+  padding: 12px 17px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: capitalize;
+
+  &:disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &:hover {
+    background-color: lighten($gray, 3%);
+  }
+
+
+  &.blue {
+    background-color: rgba($blue, 40%);
+
+    &:hover {
+      background-color: rgba($blue, 70%);
+    }
+  }
+
+  &.yellow {
+    background-color: rgba($yellow, 60%);
+
+    &:hover {
+      background-color: rgba($yellow, 70%);
+    }
+  }
+
+  &.start {
+    border-radius: 50%;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    background-color: $red;
+
+    &:hover {
+      background-color: darken($red, 10%)
+    }
+  }
+
+  &.stop {
+    border-radius: 50%;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    background-color: $blue;
+
+    &:hover {
+      background-color: darken($blue, 10%)
+    }
+  }
+}
+
+/* track */
+.track__wrapper {
+  width: 100%;
+  margin-top: 20px;
+}
+.track {
+  position: relative;
+  appearance: none;
+  width: 100%;
+  height: 35px;
+  background-color: #2d3334;
+  outline: none;
+  transform: skewX(315deg);
+  border-radius: 8px;
+  z-index: 2;
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 100%;
+    right: 15%;
+    z-index: 4;
+    background: repeating-conic-gradient(from 0deg, #000000 0% 25%, #FFFFFF 0% 50%) 50%/10px 10px;
+  }
+  &:before {
+    content: "";
+    position: absolute;
+    bottom: 50%;
+    left: 8px;
+    right: 0;
+    height: 2px;
+    background-image: repeating-linear-gradient(338deg, transparent 0 10px, #FFFFFF 10px 20px);
+    z-index: 1;
+  }
+}
+
+.track::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  background: #000;
+  cursor: pointer;
+  border: 5px solid lawngreen;
+  border-radius: 4px;
+  position: relative;
+  top: -30px;
+  z-index: 6;
+}
+
+/*car*/
+.carSvg {
+  position: absolute;
+  left: 0;
+  transform: translateY(-50%);
+  z-index: 20;
+}

@@ -19,7 +19,7 @@ export class Header extends BaseComponent<'header'> {
     this.links = {
       toGarage: new BaseComponent({
         tagName: 'a',
-        className: ['button', 'is-primary'],
+        className: [styles.button, styles['green-light']],
         textContent: 'to Garage',
         attrs: {
           href: Links.garage
@@ -27,7 +27,7 @@ export class Header extends BaseComponent<'header'> {
       }),
       toWinners: new BaseComponent({
         tagName: 'a',
-        className: ['button', 'is-danger'],
+        className: [styles.button, styles['purple-light']],
         textContent: 'to Winners',
         attrs: {
           href: Links.winners
@@ -51,7 +51,7 @@ export class Header extends BaseComponent<'header'> {
 
     const nav = new BaseComponent({
       tagName: 'nav',
-      className: ['nav'],
+      className: [styles.nav],
       children: [ul]
     });
 
