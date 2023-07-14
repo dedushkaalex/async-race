@@ -1,1 +1,1 @@
-export * from './winners.component';
+export * from './winnersScreen';

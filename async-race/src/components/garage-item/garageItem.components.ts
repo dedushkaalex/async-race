@@ -1,23 +1,27 @@
+/* eslint-disable max-lines-per-function */
+
 /* eslint-disable prettier/prettier */
 import { BaseComponent } from '@core/base-component/BaseComponent';
+import { createSVG } from '@core/svg-creator/createSvg';
 
 import styles from './styles.module.scss';
 
-import { Button } from 'ui/button/button.component';
-
 export class GarageItem extends BaseComponent {
-  public selectCarBtn: Button<'button'>;
-  public removeCarBtn: Button<'button'>;
-  public startEngineBtn: Button<'button'>;
-  public stopEngineBtn: Button<'button'>;
+  public selectCarBtn: BaseComponent<'button'>;
+  public removeCarBtn: BaseComponent<'button'>;
+  public startEngineBtn: BaseComponent<'button'>;
+  public stopEngineBtn: BaseComponent<'button'>;
   public carName: BaseComponent<'span'>;
   public track: BaseComponent<'input'>;
-  public car: BaseComponent<'object'>;
+  public car: SVGSVGElement;
 
-  constructor() {
+  constructor(public name: string, public color: string, public id: number) {
     super({
       tagName: 'div',
-      className: [styles.car]
+      className: [styles.car],
+      attrs: {
+        id
+      }
     });
     this.track = new BaseComponent({
       tagName: 'input',
@@ -32,40 +36,43 @@ export class GarageItem extends BaseComponent {
     this.carName = new BaseComponent({
       tagName: 'span',
       className: [styles.carName],
-      textContent: 'Tesla'
+      textContent: this.name
     });
-    this.selectCarBtn = new Button({
+    this.selectCarBtn = new BaseComponent({
       tagName: 'button',
       className: [styles.button, styles.yellow],
       textContent: 'select'
     });
 
-    this.removeCarBtn = new Button({
+    this.removeCarBtn = new BaseComponent({
       tagName: 'button',
       className: [styles.button, styles.blue],
-      textContent: 'remove'
+      textContent: 'remove',
+      attrs: {
+        onclick: (): void => {
+          this.removeCarBtn.node.dispatchEvent(new CustomEvent(`remove`, {
+            detail: {
+              idCar: this.id
+            },
+            bubbles: true
+          }));
+        }
+      }
     });
 
-    this.startEngineBtn = new Button({
+    this.startEngineBtn = new BaseComponent({
       tagName: 'button',
       className: [styles.button, styles.start],
       textContent: 'start'
     });
 
-    this.stopEngineBtn = new Button({
+    this.stopEngineBtn = new BaseComponent({
       tagName: 'button',
       className: [styles.button, styles.stop],
       textContent: 'stop'
     });
 
-    this.car = new BaseComponent({
-      tagName: 'object',
-      className: [styles.carSvg],
-      attrs: {
-        data: '/game/Tesla.svg',
-        type: "image/svg+xml"
-      }
-    });
+    this.car = createSVG(color);
     this.render();
   }
 
@@ -98,8 +105,10 @@ export class GarageItem extends BaseComponent {
     const trackWrapper = new BaseComponent({
       tagName: 'div',
       className: [styles.track__wrapper],
-      children: [this.track, this.car]
+      children: [this.track]
     });
+
+    trackWrapper.node.append(this.car);
 
     this.append(carNavigator, carEngine, trackWrapper);
   }

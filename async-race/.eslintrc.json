@@ -60,7 +60,7 @@
     ],
     "max-lines-per-function": [
       "error",
-      60
+      40
     ]
   },
   "settings": {

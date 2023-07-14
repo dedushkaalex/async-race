@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+import { BaseComponent } from '@core/base-component/BaseComponent';
+import { RaceAPI } from 'api';
+
 import styles from '../styles.module.scss';
 
-import { Button } from 'ui/button/button.component';
-import { Input } from 'ui/input/input.component';
-
-export const createCarInput = new Input({
+export const createCarInput = new BaseComponent<'input'>({
+  tagName: 'input',
   className: [styles.field],
   attrs: {
     type: 'text',
@@ -11,7 +13,8 @@ export const createCarInput = new Input({
   }
 });
 
-export const updateCarInput = new Input({
+export const updateCarInput = new BaseComponent<'input'>({
+  tagName: 'input',
   className: [styles.field],
   attrs: {
     type: 'text',
@@ -19,7 +22,8 @@ export const updateCarInput = new Input({
   }
 });
 
-export const colorCreatePickerCarInput = new Input({
+export const colorCreatePickerCarInput = new BaseComponent<'input'>({
+  tagName: 'input',
   className: [],
   attrs: {
     type: 'color',
@@ -27,7 +31,8 @@ export const colorCreatePickerCarInput = new Input({
   }
 });
 
-export const colorUpdatePickerCarInput = new Input({
+export const colorUpdatePickerCarInput = new BaseComponent<'input'>({
+  tagName: 'input',
   className: [],
   attrs: {
     type: 'color',
@@ -35,31 +40,44 @@ export const colorUpdatePickerCarInput = new Input({
   }
 });
 
-export const createCarBtn = new Button({
+export const createCarBtn = new BaseComponent<'button'>({
   tagName: 'button',
   className: [styles.button, styles.green],
-  textContent: 'Create'
+  textContent: 'Create',
+  attrs: {
+    onclick: async (): Promise<void> => {
+      const { node: input } = createCarInput;
+      const { node: colorPicker } = colorCreatePickerCarInput;
+      if (!input.value.trim().length) {
+        return;
+      }
+      await RaceAPI.createCar({
+        name: input.value,
+        color: colorPicker.value
+      });
+    }
+  }
 });
 
-export const updateCarBtn = new Button({
+export const updateCarBtn = new BaseComponent({
   tagName: 'button',
   className: [styles.button, styles.purple],
   textContent: 'Update'
 });
 
-export const rageAllBtn = new Button({
+export const rageAllBtn = new BaseComponent({
   tagName: 'button',
   className: [styles.button],
   textContent: 'Rage'
 });
 
-export const resetBtn = new Button({
+export const resetBtn = new BaseComponent({
   tagName: 'button',
   className: [styles.button],
   textContent: 'Reset'
 });
 
-export const generateBtn = new Button({
+export const generateBtn = new BaseComponent({
   tagName: 'button',
   className: [styles.button],
   textContent: 'Generate Car'

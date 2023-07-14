@@ -1,7 +1,7 @@
 /* eslint-disable new-cap */
 import { BaseComponent } from '@core/base-component/BaseComponent';
 import { Layout } from '@layout/layout.component';
-import { NotFound } from '@screens/not-found/not-found.component';
+import { NotFoundScreen } from '@screens/not-found/notFoundScreen';
 
 import { ROUTES, TRoutes } from './routes.data';
 
@@ -56,7 +56,7 @@ export class Router {
     if (!route) {
       route = {
         path: this.getCurrentPath(),
-        component: NotFound
+        component: NotFoundScreen
       };
     }
     this.currentRoute = route;

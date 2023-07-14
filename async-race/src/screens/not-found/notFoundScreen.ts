@@ -1,6 +1,6 @@
 import { BaseComponent } from '@core/base-component/BaseComponent';
 
-export class NotFound {
+export class NotFoundScreen {
   public render(): BaseComponent<'h1'> {
     return new BaseComponent({
       tagName: 'h1',

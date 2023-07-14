@@ -1,1 +1,1 @@
-export * from './garage.component';
+export * from './garageScreen';

@@ -1,8 +1,8 @@
-import { GarageScreen, NotFound, Winners } from '@screens';
+import { GarageScreen, NotFoundScreen, WinnersScreen } from '@screens';
 
 export type TRoutes = {
   path: string;
-  component: typeof GarageScreen | typeof Winners | typeof NotFound;
+  component: typeof GarageScreen | typeof WinnersScreen | typeof NotFoundScreen;
 };
 
 export const ROUTES: TRoutes[] = [
@@ -12,6 +12,6 @@ export const ROUTES: TRoutes[] = [
   },
   {
     path: '/winners',
-    component: Winners
+    component: WinnersScreen
   }
 ];

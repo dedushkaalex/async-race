@@ -1,5 +1,4 @@
 import { BASE_URL } from '../constants';
-import { StatusCode } from './@types/enum';
 import { Car, CarServer, WinnersServer } from './@types/interface';
 import type { AllCars, AllWinners } from './@types/types';
 

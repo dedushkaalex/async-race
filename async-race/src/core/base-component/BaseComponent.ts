@@ -11,7 +11,7 @@ export interface IProps<T extends keyof HTMLElementTagNameMap> {
 }
 
 export class BaseComponent<T extends keyof HTMLElementTagNameMap = 'div'> {
-  public readonly node: HTMLElementTagNameMap[T] | SVGElement;
+  public readonly node: HTMLElementTagNameMap[T];
   constructor({
     tagName,
     className = [],

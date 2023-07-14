@@ -49,3 +49,11 @@ input[type='number']::-webkit-inner-spin-button {
 input[type='number'] {
 	appearance: textfield;
 }
+
+/*car*/
+.carSvg {
+  position: absolute;
+  left: 0;
+  transform: translateY(-50%);
+  z-index: 20;
+}
