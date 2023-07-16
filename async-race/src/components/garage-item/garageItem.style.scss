@@ -139,4 +139,11 @@
   position: relative;
   top: -30px;
   z-index: 6;
+  transition: left 1s linear;
+}
+.track::-moz-range-thumb {
+  transition: left 1s linear;
+}
+.track::-ms-thumb {
+  transition: left 1s linear;
 }

@@ -53,6 +53,7 @@ input[type='number'] {
 .carSvg {
   position: absolute;
   left: 0;
-  transform: translateY(-50%);
+  // transform: translateY(-50%);
+  bottom: -40%;
   z-index: 20;
 }

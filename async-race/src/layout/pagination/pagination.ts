@@ -1,4 +1,3 @@
-import { CarResponse, Winners } from '@api/interface';
 import { Page } from '@api/types';
 import { LIMIT_GARAGE, LIMIT_WINNERS } from '@constants/index';
 import { Store } from '@core/Store/store';
