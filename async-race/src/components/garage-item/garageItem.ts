@@ -15,12 +15,14 @@ export class GarageItem extends BaseComponent {
   public carName: BaseComponent<'span'>;
   public track: Input;
   public car: SVGSVGElement;
+  public animateFrameID: number | null;
   constructor(public color: string, public name: string, public id: number) {
     super({
       tagName: 'div',
       classList: ['car']
     });
     this.setAttribute('id', `${this.id}`);
+    this.animateFrameID = null;
 
     this.track = new Input('range', ['track']);
     this.track.removeClass('input');
@@ -38,6 +40,8 @@ export class GarageItem extends BaseComponent {
     this.removeCarBtn = new Button('remove', ['blue']);
     this.startEngineBtn = new Button('start', ['start']);
     this.stopEngineBtn = new Button('stop', ['stop']);
+
+    this.changeActiveBtn(this.stopEngineBtn, true);
 
     this.car = createSVG(color);
 
@@ -79,19 +83,34 @@ export class GarageItem extends BaseComponent {
 
     trackWrapper.node.append(this.car);
     this.append(carNavigator, carEngine, trackWrapper);
-
     return this;
   }
 
   public handleStartEngine(): void {
     this.startEngineBtn.addListener('click', async () => {
+      this.changeActiveBtn(this.startEngineBtn, true);
       const { distance, velocity } = await RaceApi.startEngine(this.id);
-      // const status = await RaceApi.startDrive(this.id);
+      this.changeActiveBtn(this.stopEngineBtn, false);
       const duration = distance / velocity;
       this.track.node.max = String(distance);
 
-      // this.track.node.addEventListener('input', );
       this.animationSpeed(distance, duration);
+
+      const { success } = await RaceApi.startDrive(this.id);
+      if (!success) {
+        window.cancelAnimationFrame(this.animateFrameID as number);
+      }
+    });
+
+    this.stopEngineBtn.addListener('click', async () => {
+      const stopDrive = await RaceApi.stopEngine(this.id);
+      if (stopDrive) {
+        window.cancelAnimationFrame(this.animateFrameID as number);
+        this.track.node.value = '0';
+        this.animationImage();
+        this.changeActiveBtn(this.startEngineBtn, false);
+        this.changeActiveBtn(this.stopEngineBtn, true);
+      }
     });
   }
 
@@ -108,7 +127,7 @@ export class GarageItem extends BaseComponent {
       this.animationImage();
 
       if (progress < 1) {
-        requestAnimationFrame(animateThumb);
+        this.animateFrameID = requestAnimationFrame(animateThumb) as number;
       } else {
         startTime = null;
       }
@@ -129,7 +148,6 @@ export class GarageItem extends BaseComponent {
 
   public animationImage(): void {
     const valueThumb = Number(this.track.node.value);
-    console.log(valueThumb);
 
     const svgRect = this.car.getBoundingClientRect().width;
     const imagePosition =
@@ -137,5 +155,16 @@ export class GarageItem extends BaseComponent {
       (this.track.node.offsetWidth - svgRect);
 
     this.car.style.transform = `translateX(${imagePosition}px)`;
+  }
+
+  private changeActiveBtn(element: Button, isActive: boolean = false): void {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    if (isActive) {
+      element.setAttribute('disabled', String(isActive));
+      element.addClass('disabled');
+    } else {
+      element.removeAttribute('disabled');
+      element.removeClass('disabled');
+    }
   }
 }

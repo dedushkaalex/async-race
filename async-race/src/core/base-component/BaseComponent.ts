@@ -49,6 +49,10 @@ export class BaseComponent<T extends keyof HTMLElementTagNameMap = 'div'> {
     this.node.setAttribute(attribute, value);
   }
 
+  public removeAttribute(attribute: string): void {
+    this.node.removeAttribute(attribute);
+  }
+
   public toggleClass(className: string): void {
     this.node.classList.toggle(className);
   }
