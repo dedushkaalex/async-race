@@ -1,35 +1,52 @@
 import { RaceApi } from '@api/api';
 import { Car, CarResponse } from '@api/interface';
+import { LIMIT_GARAGE } from '@constants/index';
+import { Store } from '@core/Store/store';
 import { BaseComponent } from '@core/base-component';
 
 import { GarageItem } from '@components/garage-item/garageItem';
+import { loader } from '@components/loader/loader';
 
 import './garageList.scss';
 
 export class GarageList extends BaseComponent {
+  public store = Store.getInstance();
   constructor() {
     super({
       tagName: 'div',
       classList: ['car-list']
     });
-    // this.GarageItem = new GarageItem('red', 'ss', 9);
 
-    const title = new BaseComponent({
-      tagName: 'h1',
-      classList: ['title'],
-      textContent: 'Garage []'
-    });
-    this.append(title);
+    this.store.addObserver(this);
     this.render();
+
+    this.customEventHandler();
+  }
+
+  public update(): void {
+    this.node.insertAdjacentHTML('beforeend', loader());
+    setTimeout(() => {
+      this.addTextContent('');
+      this.render();
+    }, 1000);
   }
 
   public async render(): Promise<void> {
-    this.append(...(await this.generateCars()));
+    this.append(
+      ...(await this.generateCars(this.store.state.counterGarage as number))
+    );
   }
 
-  public async generateCars(): Promise<GarageItem[]> {
+  public async generateCars(page: number): Promise<GarageItem[]> {
     const cars: GarageItem[] = [];
-    const carResponse: CarResponse = await RaceApi.getCars();
+    const carResponse: CarResponse = await RaceApi.getCars([
+      { key: '_page', value: page },
+      { key: '_limit', value: LIMIT_GARAGE }
+    ]);
+    const items = carResponse.count;
+    this.store.state.totalCar = items;
+    console.log(this.store.state.totalCar);
+
     carResponse.items.forEach((car) => {
       const carItem = new GarageItem(car.color, car.name, car.id);
       cars.push(carItem);
@@ -41,8 +58,9 @@ export class GarageList extends BaseComponent {
     document.addEventListener('get100cars', async (e) => {
       const target = e as CustomEvent;
       const arrayCars: GarageItem[] = [];
-      const { cars } = target.detail;
-      cars.forEach((car: Car) => {
+      const { items, count } = target.detail;
+      this.store.state.totalCar = count;
+      items.forEach((car: Car) => {
         const carItem = new GarageItem(car.color, car.name, car.id);
         arrayCars.push(carItem);
       });

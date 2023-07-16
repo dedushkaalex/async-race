@@ -9,7 +9,8 @@ export const generateCars = async (): Promise<CarResponse> => {
   document.dispatchEvent(
     new CustomEvent('get100cars', {
       detail: {
-        cars: carResponse
+        items: carResponse.items,
+        count: carResponse.count
       }
     })
   );

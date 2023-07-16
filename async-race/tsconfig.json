@@ -17,10 +17,12 @@
     "baseUrl": "src",
     "paths": {
       "@styles/*": ["styles/*"],
+      "@constants/*": ["constants/*"],
       "@components/*": ["components/*"],
       "@core/*": ["core/*"],
       "@layout/*": ["layout/*"],
-      "@screens/*": ["screens/*"]
+      "@screens/*": ["screens/*"],
+      "@api/*": ["api/*"],
     },
 
     /* Linting */
