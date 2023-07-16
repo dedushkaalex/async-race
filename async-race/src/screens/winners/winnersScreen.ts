@@ -1,10 +1,13 @@
 import { BaseComponent } from '@core/base-component/BaseComponent';
 
-export class WinnersScreen {
-  public render(): BaseComponent<'p'> {
-    return new BaseComponent({
-      tagName: 'p',
-      textContent: 'Winners'
+export class WinnersScreen extends BaseComponent {
+  constructor() {
+    super({
+      tagName: 'div',
+      classList: ['container']
     });
+  }
+  public render(): BaseComponent<'p'> {
+    return this;
   }
 }

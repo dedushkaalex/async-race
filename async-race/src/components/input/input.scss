@@ -1,0 +1,28 @@
+@import '@styles/mixins';
+@import '@styles/variables';
+
+.input {
+  @include transition(border-color);
+  background-color: $gray;
+  border-radius: $radius;
+  border: 1px solid transparent;
+  padding: 12px 20px;
+  display: block;
+
+  &:focus-within {
+    border-color: rgba($primary, 0.5);
+  }
+}
+
+input[type="color"] {
+  padding: 0;
+	margin-top: 16px;
+	border: none;
+	width: 40px;
+	background-color: transparent;
+	cursor: pointer;
+	
+	&:focus {
+		outline: none;
+	}
+}

@@ -1,44 +1,26 @@
-/* eslint-disable import/no-cycle */
-import { ComponentAttributes } from './types';
-import { createDomElement, setAttributes } from './utils';
-
-export interface IProps<T extends keyof HTMLElementTagNameMap> {
+type Props<T extends keyof HTMLElementTagNameMap> = {
   tagName?: T;
-  className?: string[];
+  classList?: string[];
   textContent?: string;
-  attrs?: null | ComponentAttributes;
   children?: BaseComponent<keyof HTMLElementTagNameMap>[];
-}
+};
 
 export class BaseComponent<T extends keyof HTMLElementTagNameMap = 'div'> {
   public readonly node: HTMLElementTagNameMap[T];
   constructor({
     tagName,
-    className = [],
-    attrs = null,
+    classList = [],
     textContent = '',
     children = []
-  }: IProps<T>) {
-    this.node = createDomElement(
-      tagName ?? 'div',
-      attrs
+  }: Props<T>) {
+    this.node = document.createElement(
+      tagName ?? 'div'
     ) as HTMLElementTagNameMap[T];
-
-    this.node.classList.add(...className);
+    this.node.classList.add(...classList);
     this.node.textContent = textContent;
-
-    if (attrs) {
-      setAttributes(this.node, attrs as ComponentAttributes);
-    }
     if (children.length) {
       this.append(...children);
     }
-  }
-
-  public static clear<T extends keyof HTMLElementTagNameMap>(
-    el: BaseComponent<T>
-  ): void {
-    el.node.textContent = '';
   }
 
   public append<U extends keyof HTMLElementTagNameMap>(
@@ -57,5 +39,42 @@ export class BaseComponent<T extends keyof HTMLElementTagNameMap = 'div'> {
 
   public destroy(): void {
     this.node.remove();
+  }
+
+  public addTextContent(text: string): void {
+    this.node.textContent = text;
+  }
+
+  public setAttribute(attribute: string, value: string): void {
+    this.node.setAttribute(attribute, value);
+  }
+
+  public toggleClass(className: string): void {
+    this.node.classList.toggle(className);
+  }
+
+  public addListener(
+    event: string,
+    listener: (e: Event) => void,
+    options: AddEventListenerOptions | boolean = false
+  ): void {
+    this.node.addEventListener(event, listener, options);
+  }
+
+  public clear(el: BaseComponent): void {
+    el.node.textContent = '';
+  }
+
+  public destroyChildren(): void {
+    [...this.node.children].forEach((el) => {
+      el.remove();
+    });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public static clearContent<T extends keyof HTMLElementTagNameMap>(
+    el: BaseComponent<T>
+  ): void {
+    el.node.textContent = '';
   }
 }

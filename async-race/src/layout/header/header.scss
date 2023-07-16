@@ -1,0 +1,11 @@
+@import '@styles/mixins';
+
+.header {
+  @include flex-horizontal-center;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.nav ul {
+  display: flex;
+}

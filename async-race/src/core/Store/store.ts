@@ -1,16 +1,7 @@
-import { RaceAPI } from 'api';
-import { CarServer } from 'api/@types/interface';
-
-export const { cars, total } = await RaceAPI.getCars([
-  { key: '_page', value: 1 },
-  { key: '_limit', value: 4 }
-]);
-
-type State = Record<string, string | number | CarServer[]>;
-
 type Observer = {
   update(): void;
 };
+type State = Record<string, string>;
 
 export class Store {
   private static instance: Store;
@@ -55,9 +46,9 @@ export class Store {
     }, 0);
   }
 
-  public updateLevel(currentLevel: number): void {
-    this.state.level = currentLevel;
-  }
+  // public updateLevel(currentLevel: number): void {
+  //   this.state.level = currentLevel;
+  // }
 
   public addObserver(observer: Observer): void {
     this.observers.push(observer);

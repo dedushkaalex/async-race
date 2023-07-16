@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
 import '@styles/global.scss';
-import { Router } from 'core/router/router';
+import { Router } from 'router/router';
 
 new Router();
