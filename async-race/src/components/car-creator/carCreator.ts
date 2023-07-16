@@ -1,7 +1,8 @@
 /* eslint-disable no-return-assign */
+import { RaceApi } from '@api/api';
 import { CarResponse } from '@api/interface';
+import { Store } from '@core/Store/store';
 import { BaseComponent } from '@core/base-component';
-import { generateOneHundredCars } from 'utils/generateOneHundredCars';
 
 import { Button } from '@components/button/button';
 import { Input } from '@components/input/input';
@@ -10,6 +11,7 @@ import './carCreator.scss';
 import { generateCars } from './model/handlers';
 
 export class CarCreator extends BaseComponent<'section'> {
+  public store = Store.getInstance();
   public carNameInput: Input;
   public updateCarInput: Input;
   public colorCreatePickerCarInput: Input;
@@ -37,6 +39,20 @@ export class CarCreator extends BaseComponent<'section'> {
     this.rageAllBtn = new Button('Rage', ['red']);
     this.resetBtn = new Button('Reset', ['green']);
     this.render();
+
+    this.changeActiveBtn(this.updateCarBtn, true);
+    this.changeActiveBtn(this.updateCarInput, true);
+
+    this.createCarHandler();
+
+    document.addEventListener('selectCar', (e) => {
+      const target = e as CustomEvent;
+      const { id, carName } = target.detail;
+      this.changeActiveBtn(this.updateCarInput, false);
+      this.changeActiveBtn(this.updateCarBtn, false);
+      this.updateCarInput.setValue(carName);
+      this.updateCarHandler(id);
+    });
   }
 
   public render(): void {
@@ -78,5 +94,50 @@ export class CarCreator extends BaseComponent<'section'> {
         this.generateBtn.node.style.background = '';
       }, 3000);
     });
+  }
+
+  public createCarHandler(): void {
+    this.createCarBtn.addListener('click', async () => {
+      const name = this.carNameInput.getValue().trim();
+      const color = this.colorCreatePickerCarInput.getValue();
+      if (name.length) {
+        await RaceApi.createCar({ name, color });
+        document.dispatchEvent(new CustomEvent('createCar'));
+        this.carNameInput.setValue('');
+      }
+    });
+  }
+
+  public updateCarHandler(id: number): void {
+    console.log(id);
+
+    this.updateCarBtn.addListener('click', async () => {
+      await RaceApi.updateCar(id, {
+        name: this.updateCarInput.getValue(),
+        color: this.colorUpdatePickerCarInput.getValue()
+      }).finally((): void => {
+        setTimeout(() => {
+          this.changeActiveBtn(this.updateCarBtn, true);
+          this.changeActiveBtn(this.updateCarInput, true);
+        }, 2000);
+      });
+
+      this.updateCarInput.setValue('');
+      this.store.updateComponent();
+    });
+  }
+
+  private changeActiveBtn(
+    element: Button | Input,
+    isActive: boolean = false
+  ): void {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    if (isActive) {
+      element.setAttribute('disabled', String(isActive));
+      element.addClass('disabled');
+    } else {
+      element.removeAttribute('disabled');
+      element.removeClass('disabled');
+    }
   }
 }

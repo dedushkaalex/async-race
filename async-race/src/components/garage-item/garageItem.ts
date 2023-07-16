@@ -1,4 +1,5 @@
 import { RaceApi } from '@api/api';
+import { Store } from '@core/Store/store';
 import { BaseComponent } from '@core/base-component';
 import { createSVG } from 'utils/createSvg';
 
@@ -8,6 +9,7 @@ import { Input } from '@components/input/input';
 import './garageItem.style.scss';
 
 export class GarageItem extends BaseComponent {
+  public store = Store.getInstance();
   public selectCarBtn: Button;
   public removeCarBtn: Button;
   public startEngineBtn: Button;
@@ -46,7 +48,9 @@ export class GarageItem extends BaseComponent {
     this.car = createSVG(color);
 
     this.render();
-    this.handleStartEngine();
+    this.handleDriveEngine();
+    this.handleRemoveCar();
+    this.handleSelectCar();
   }
 
   public render(): BaseComponent {
@@ -86,7 +90,30 @@ export class GarageItem extends BaseComponent {
     return this;
   }
 
-  public handleStartEngine(): void {
+  public handleRemoveCar(): void {
+    this.removeCarBtn.addListener('click', async () => {
+      const response = await RaceApi.deleteCar(this.id);
+      if (response) {
+        this.destroy();
+        (this.store.state.totalCar as number) -= 1;
+      }
+    });
+  }
+
+  public handleSelectCar(): void {
+    this.selectCarBtn.addListener('click', () => {
+      document.dispatchEvent(
+        new CustomEvent('selectCar', {
+          detail: {
+            carName: this.carName.getTextContent(),
+            id: this.id
+          }
+        })
+      );
+    });
+  }
+
+  public handleDriveEngine(): void {
     this.startEngineBtn.addListener('click', async () => {
       this.changeActiveBtn(this.startEngineBtn, true);
       const { distance, velocity } = await RaceApi.startEngine(this.id);

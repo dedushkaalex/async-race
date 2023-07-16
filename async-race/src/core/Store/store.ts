@@ -56,9 +56,9 @@ export class Store {
     }, 0);
   }
 
-  // public updateLevel(currentLevel: number): void {
-  //   this.state.level = currentLevel;
-  // }
+  public updateComponent(): void {
+    this.notifyAll();
+  }
 
   public addObserver(observer: Observer): void {
     this.observers.push(observer);

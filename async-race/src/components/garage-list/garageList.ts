@@ -5,7 +5,6 @@ import { Store } from '@core/Store/store';
 import { BaseComponent } from '@core/base-component';
 
 import { GarageItem } from '@components/garage-item/garageItem';
-import { loader } from '@components/loader/loader';
 
 import './garageList.scss';
 
@@ -24,11 +23,11 @@ export class GarageList extends BaseComponent {
   }
 
   public update(): void {
-    this.node.insertAdjacentHTML('beforeend', loader());
-    setTimeout(() => {
-      this.addTextContent('');
-      this.render();
-    }, 1000);
+    this.render();
+    // this.node.insertAdjacentHTML('beforeend', loader());
+    // setTimeout(() => {
+    //   this.addTextContent('');
+    // }, 1000);
   }
 
   public async render(): Promise<void> {
@@ -41,7 +40,9 @@ export class GarageList extends BaseComponent {
     const cars: GarageItem[] = [];
     const carResponse: CarResponse = await RaceApi.getCars([
       { key: '_page', value: page },
-      { key: '_limit', value: LIMIT_GARAGE }
+      { key: '_limit', value: LIMIT_GARAGE },
+      { key: '_sort', value: 'id' },
+      { key: '_order', value: 'desc' }
     ]);
     const items = carResponse.count;
     this.store.state.totalCar = items;

@@ -26,6 +26,10 @@ export class GarageScreen extends BaseComponent {
       textContent: `Garage [${this.store.state.totalCar}]`
     });
     this.GarageList = new GarageList();
+
+    document.addEventListener('createCar', () => {
+      this.store.updateComponent();
+    });
   }
 
   public render(): BaseComponent {

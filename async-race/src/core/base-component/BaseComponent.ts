@@ -49,6 +49,9 @@ export class BaseComponent<T extends keyof HTMLElementTagNameMap = 'div'> {
     this.node.setAttribute(attribute, value);
   }
 
+  public getTextContent(): string {
+    return this.node.textContent || '';
+  }
   public removeAttribute(attribute: string): void {
     this.node.removeAttribute(attribute);
   }
