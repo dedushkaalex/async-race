@@ -1,3 +1,4 @@
+import { RaceApi } from '@api/api';
 import { FADE_IN, FADE_OUT } from '@constants/index';
 import { Store } from '@core/Store/store';
 import { BaseComponent } from '@core/base-component';

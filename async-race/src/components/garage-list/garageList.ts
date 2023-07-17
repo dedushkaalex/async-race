@@ -1,5 +1,5 @@
 import { RaceApi } from '@api/api';
-import { Car, CarResponse } from '@api/interface';
+import { Car, CarResponse, Engine } from '@api/interface';
 import { LIMIT_GARAGE } from '@constants/index';
 import { Store } from '@core/Store/store';
 import { BaseComponent } from '@core/base-component';
@@ -9,12 +9,15 @@ import { GarageItem } from '@components/garage-item/garageItem';
 import './garageList.scss';
 
 export class GarageList extends BaseComponent {
+  private cars: GarageItem[];
   public store = Store.getInstance();
   constructor() {
     super({
       tagName: 'div',
       classList: ['car-list']
     });
+
+    this.cars = [];
 
     this.store.addObserver(this);
     this.render();
@@ -38,7 +41,7 @@ export class GarageList extends BaseComponent {
 
   public async generateCars(page: number): Promise<GarageItem[]> {
     const cars: GarageItem[] = [];
-    const carResponse: CarResponse = await RaceApi.getCars([
+    const carResponse = await RaceApi.getCars([
       { key: '_page', value: page },
       { key: '_limit', value: LIMIT_GARAGE },
       { key: '_sort', value: 'id' },
@@ -52,6 +55,7 @@ export class GarageList extends BaseComponent {
       const carItem = new GarageItem(car.color, car.name, car.id);
       cars.push(carItem);
     });
+    this.cars = this.cars.concat(cars);
     return cars;
   }
 
@@ -66,6 +70,15 @@ export class GarageList extends BaseComponent {
         arrayCars.push(carItem);
       });
       this.append(...arrayCars);
+    });
+
+    document.addEventListener('rageAll', async () => {
+      const allStartEngineArray: Array<Promise<Engine>> = [];
+      this.cars.forEach((item) => {
+        allStartEngineArray.push(RaceApi.startEngine(item.id));
+      });
+      const startEngines = await Promise.all(allStartEngineArray);
+      console.log(s);
     });
   }
 }
