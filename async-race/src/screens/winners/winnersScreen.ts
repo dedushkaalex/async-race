@@ -1,10 +1,10 @@
 // import { Store } from '@core/Store/store';
+import { AppStore } from '@core/Store/Store';
 import { BaseComponent } from '@core/base-component/BaseComponent';
 
 import { WinnersTable } from '@components/winners-table/winnersTable';
 
 export class WinnersScreen extends BaseComponent {
-  // public store = Store.getInstance();
   public title: BaseComponent<'h1'>;
   constructor() {
     super({
@@ -15,7 +15,7 @@ export class WinnersScreen extends BaseComponent {
     this.title = new BaseComponent<'h1'>({
       tagName: 'h1',
       classList: ['title'],
-      // textContent: `Winners [${this.store.state.totalWinners}]`
+      textContent: `Winners [${AppStore.state.totalWinners}]`
     });
   }
   public render(): BaseComponent {
@@ -24,5 +24,6 @@ export class WinnersScreen extends BaseComponent {
   }
   public update(): void {
     // this.title.addTextContent(`Winners [${this.store.state.totalWinners}]`);
+    console.log('Состояние winners обновлено:', AppStore.state);
   }
 }

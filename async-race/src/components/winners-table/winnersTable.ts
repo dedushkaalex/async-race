@@ -1,6 +1,5 @@
 /* eslint-disable max-lines-per-function */
 import { RaceApi } from '@api/api';
-import { Winner, Winners } from '@api/interface';
 import { LIMIT_WINNERS } from '@constants/index';
 import { AppStore } from '@core/Store/Store';
 import { BaseComponent } from '@core/base-component';
@@ -11,7 +10,6 @@ import './winners.scss';
 export class WinnersTable extends BaseComponent<'table'> {
   public tableHead: BaseComponent<'tr'>;
   private winners: BaseComponent<'tr'>[];
-
 
   constructor() {
     super({
