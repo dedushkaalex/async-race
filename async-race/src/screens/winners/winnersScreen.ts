@@ -19,7 +19,7 @@ export class WinnersScreen extends BaseComponent {
     });
   }
   public render(): BaseComponent {
-    this.append(this.title);
+    this.append(this.title, new WinnersTable());
     return this;
   }
   public update(): void {

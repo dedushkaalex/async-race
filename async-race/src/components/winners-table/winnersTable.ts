@@ -1,7 +1,8 @@
+/* eslint-disable max-lines-per-function */
 import { RaceApi } from '@api/api';
 import { Winner, Winners } from '@api/interface';
 import { LIMIT_WINNERS } from '@constants/index';
-// import { Store } from '@core/Store/store';
+import { AppStore } from '@core/Store/Store';
 import { BaseComponent } from '@core/base-component';
 import { createSVG } from 'utils/createSvg';
 
@@ -9,14 +10,15 @@ import './winners.scss';
 
 export class WinnersTable extends BaseComponent<'table'> {
   public tableHead: BaseComponent<'tr'>;
-  // public store = Store.getInstance();
+  private winners: BaseComponent<'tr'>[];
+
+
   constructor() {
     super({
       tagName: 'table',
       classList: ['table']
     });
-    // this.store.addObserver(this);
-
+    this.winners = [];
     this.tableHead = new BaseComponent({
       tagName: 'tr',
       children: [
@@ -53,14 +55,14 @@ export class WinnersTable extends BaseComponent<'table'> {
   public update(): void {}
   public render(): void {
     this.append(this.tableHead);
+    this.generateWinners(AppStore.state.countWinners);
   }
 
   public async generateWinners(page: number): Promise<void> {
-    const winners: Winners[] = [];
+    const winners: BaseComponent<'tr'>[] = [];
     const winnerResponse = await RaceApi.getWinners(page, LIMIT_WINNERS);
     const items = winnerResponse.count;
-    // this.store.state.totalCar = Number(items);
-    // console.log(this.store.state.totalCar);
+    AppStore.state.countWinners = Number(items);
 
     winnerResponse.items.forEach((winner) => {
       const carItem = this.createWinnerElement(
@@ -68,10 +70,10 @@ export class WinnersTable extends BaseComponent<'table'> {
         winner.time,
         winner.wins
       );
-      // winners.push(carItem);
+      winners.push(carItem);
     });
-    // this.cars = this.cars.concat(cars);
-    // this.append(...cars);
+    this.winners = this.winners.concat(winners);
+    this.append(...winners);
   }
 
   public createWinnerElement(
@@ -81,7 +83,8 @@ export class WinnersTable extends BaseComponent<'table'> {
   ): BaseComponent<'tr'> {
     const svg = createSVG('red');
     const svgWrapper = new BaseComponent({
-      tagName: 'td'
+      tagName: 'td',
+      classList: ['td', 'svg-wrapper']
     });
     svgWrapper.node.append(svg);
     const winnerItemElement = new BaseComponent({
@@ -90,19 +93,23 @@ export class WinnersTable extends BaseComponent<'table'> {
       children: [
         new BaseComponent({
           tagName: 'td',
+          classList: ['td'],
           textContent: String(id)
         }),
         svgWrapper,
         new BaseComponent({
           tagName: 'td',
+          classList: ['td'],
           textContent: 'BMW'
         }),
         new BaseComponent({
           tagName: 'td',
+          classList: ['td'],
           textContent: String(wins)
         }),
         new BaseComponent({
           tagName: 'td',
+          classList: ['td'],
           textContent: String(time)
         })
       ]

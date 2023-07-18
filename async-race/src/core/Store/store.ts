@@ -26,11 +26,15 @@ export class Store<T extends Record<string | symbol, unknown>> {
 type AppState = {
   totalCar: number;
   count: number;
+  countWinners: number;
+  totalWinners: number;
 };
 
 const initialState: AppState = {
   count: 1,
-  totalCar: 0
+  totalCar: 0,
+  countWinners: 1,
+  totalWinners: 0
 };
 
 export const AppStore = new Store(initialState);
