@@ -51,6 +51,7 @@ export class GarageItem extends BaseComponent {
     this.handleDriveEngine();
     this.handleRemoveCar();
     this.handleSelectCar();
+    this.customEventHandler();
   }
 
   public render(): BaseComponent {
@@ -123,7 +124,10 @@ export class GarageItem extends BaseComponent {
 
       this.animationSpeed(distance, duration);
 
-      const { success } = await RaceApi.startDrive(this.id);
+      const { success } = await RaceApi.startDrive(
+        this.id,
+        new AbortController()
+      );
       if (!success) {
         window.cancelAnimationFrame(this.animateFrameID as number);
       }
@@ -184,7 +188,7 @@ export class GarageItem extends BaseComponent {
     this.car.style.transform = `translateX(${imagePosition}px)`;
   }
 
-  private changeActiveBtn(element: Button, isActive: boolean = false): void {
+  public changeActiveBtn(element: Button, isActive: boolean = false): void {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     if (isActive) {
       element.setAttribute('disabled', String(isActive));
@@ -193,5 +197,14 @@ export class GarageItem extends BaseComponent {
       element.removeAttribute('disabled');
       element.removeClass('disabled');
     }
+  }
+
+  public customEventHandler(): void {
+    document.addEventListener('reset', () => {
+      this.changeActiveBtn(this.startEngineBtn, false);
+      this.changeActiveBtn(this.stopEngineBtn, true);
+      this.track.node.value = '0';
+      this.animationImage();
+    });
   }
 }

@@ -6,3 +6,9 @@ export interface Engine {
 export interface DriveStatus {
   success: boolean;
 }
+
+export interface DrivingResult {
+  success: boolean;
+  carId: number;
+  time: number;
+}

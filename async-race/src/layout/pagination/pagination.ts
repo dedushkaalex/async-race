@@ -2,6 +2,7 @@ import { Page } from '@api/types';
 import { LIMIT_GARAGE, LIMIT_WINNERS } from '@constants/index';
 import { Store } from '@core/Store/store';
 import { BaseComponent } from '@core/base-component';
+import { Router } from 'router/router';
 import { Actions } from 'types';
 
 import { Button } from '@components/button/button';

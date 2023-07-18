@@ -1,5 +1,5 @@
 import { RaceApi } from '@api/api';
-import { Car, CarResponse, Engine } from '@api/interface';
+import { Car, DrivingResult } from '@api/interface';
 import { LIMIT_GARAGE } from '@constants/index';
 import { Store } from '@core/Store/store';
 import { BaseComponent } from '@core/base-component';
@@ -11,12 +11,15 @@ import './garageList.scss';
 export class GarageList extends BaseComponent {
   private cars: GarageItem[];
   public store = Store.getInstance();
+
+  public isRequestSend: boolean;
   constructor() {
     super({
       tagName: 'div',
       classList: ['car-list']
     });
 
+    this.isRequestSend = false;
     this.cars = [];
 
     this.store.addObserver(this);
@@ -24,19 +27,24 @@ export class GarageList extends BaseComponent {
 
     this.customEventHandler();
   }
-
+  // this.append(...this.cars);
+  // this.node.insertAdjacentHTML('beforeend', loader());
+  // setTimeout(() => {
+  //   this.addTextContent('');
+  // }, 1000);
   public update(): void {
-    this.render();
-    // this.node.insertAdjacentHTML('beforeend', loader());
-    // setTimeout(() => {
-    //   this.addTextContent('');
-    // }, 1000);
+    // TODO: FIXED РЕОТПРАВКУ ЗАПРОСА
+
+    if (!this.isRequestSend) {
+      this.render();
+    }
   }
 
   public async render(): Promise<void> {
-    this.append(
-      ...(await this.generateCars(this.store.state.counterGarage as number))
-    );
+    this.isRequestSend = true;
+    this.cars = [];
+    this.generateCars(this.store.state.counterGarage as number);
+    this.isRequestSend = false;
   }
 
   public async generateCars(page: number): Promise<GarageItem[]> {
@@ -48,7 +56,7 @@ export class GarageList extends BaseComponent {
       { key: '_order', value: 'desc' }
     ]);
     const items = carResponse.count;
-    this.store.state.totalCar = items;
+    this.store.state.totalCar = Number(items);
     console.log(this.store.state.totalCar);
 
     carResponse.items.forEach((car) => {
@@ -56,6 +64,7 @@ export class GarageList extends BaseComponent {
       cars.push(carItem);
     });
     this.cars = this.cars.concat(cars);
+    this.append(...cars);
     return cars;
   }
 
@@ -72,13 +81,53 @@ export class GarageList extends BaseComponent {
       this.append(...arrayCars);
     });
 
-    document.addEventListener('rageAll', async () => {
-      const allStartEngineArray: Array<Promise<Engine>> = [];
-      this.cars.forEach((item) => {
-        allStartEngineArray.push(RaceApi.startEngine(item.id));
-      });
-      const startEngines = await Promise.all(allStartEngineArray);
-      console.log(s);
+    document.addEventListener('raсeAll', async () => {
+      this.raceAll();
     });
+  }
+
+  // eslint-disable-next-line max-lines-per-function
+  public async raceAll(): Promise<void> {
+    const promisesAll = this.cars.map(async (item) => {
+      return RaceApi.startEngine(item.id);
+    });
+
+    const arrayEngineCharacter = await Promise.all(promisesAll);
+    arrayEngineCharacter.forEach((engine, index) => {
+      this.cars[index].changeActiveBtn(this.cars[index].startEngineBtn, true);
+      this.cars[index].changeActiveBtn(this.cars[index].stopEngineBtn, false);
+      const { distance, velocity } = engine;
+      const duration = distance / velocity;
+      this.cars[index].track.node.max = String(distance);
+      this.cars[index].animationSpeed(distance, duration);
+    });
+
+    const promisesDriveCar = this.cars.map(
+      async (item, index): Promise<DrivingResult | undefined> => {
+        const { success } = await RaceApi.startDrive(
+          item.id,
+          new AbortController()
+        );
+        if (!success) {
+          window.cancelAnimationFrame(item.animateFrameID as number);
+        }
+        if (success) {
+          const carEngineCharacter = arrayEngineCharacter[index];
+          const time = Number(
+            (
+              carEngineCharacter.distance /
+              carEngineCharacter.velocity /
+              1000
+            ).toFixed(2)
+          );
+          return { success, carId: item.id, time };
+        }
+        this.cars[index].changeActiveBtn(this.cars[index].startEngineBtn, true);
+        this.cars[index].changeActiveBtn(this.cars[index].stopEngineBtn, false);
+        return Promise.reject(new Error(`Response error`));
+      }
+    );
+    const promiseDriveResult = await Promise.any(promisesDriveCar);
+    document.dispatchEvent(new CustomEvent('carArrived'));
   }
 }

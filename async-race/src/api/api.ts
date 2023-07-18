@@ -128,7 +128,14 @@ export class RaceApi {
     return data;
   };
 
-  public static startDrive = async (id: number): Promise<DriveStatus> => {
+  public static startDrive = async (
+    id: number,
+    instance: AbortController
+  ): Promise<DriveStatus> => {
+    const { signal } = instance;
+    document.addEventListener('reset', () => {
+      instance.abort();
+    });
     try {
       const response = await fetch(
         `${BASE_URL}${Endpoint.Engine}?id=${id}&status=${EngineStatus.Drive}`,
@@ -136,7 +143,8 @@ export class RaceApi {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          signal
         }
       );
       if (!response.ok) {

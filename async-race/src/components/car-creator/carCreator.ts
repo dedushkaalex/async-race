@@ -1,3 +1,5 @@
+/* eslint-disable max-lines-per-function */
+
 /* eslint-disable no-return-assign */
 import { RaceApi } from '@api/api';
 import { CarResponse } from '@api/interface';
@@ -36,10 +38,19 @@ export class CarCreator extends BaseComponent<'section'> {
     this.generateBtn = new Button('Generate', ['blue'], () =>
       this.generateBtnHandler()
     );
-    this.rageAllBtn = new Button('Rage', ['red'], () =>
-      document.dispatchEvent(new CustomEvent('rageAll'))
-    );
-    this.resetBtn = new Button('Reset', ['green']);
+    this.rageAllBtn = new Button('Raсe', ['red'], () => {
+      document.dispatchEvent(new CustomEvent('raсeAll'));
+      this.changeActiveBtn(this.rageAllBtn, true);
+      this.changeActiveBtn(this.resetBtn, true);
+      this.changeActiveBtn(this.createCarBtn, true);
+      this.changeActiveBtn(this.generateBtn, true);
+    });
+    this.resetBtn = new Button('Reset', ['green'], () => {
+      document.dispatchEvent(new CustomEvent('reset'));
+      this.changeActiveBtn(this.rageAllBtn, false);
+      this.changeActiveBtn(this.createCarBtn, false);
+      this.changeActiveBtn(this.generateBtn, false);
+    });
     this.render();
 
     this.changeActiveBtn(this.updateCarBtn, true);
@@ -54,6 +65,10 @@ export class CarCreator extends BaseComponent<'section'> {
       this.changeActiveBtn(this.updateCarBtn, false);
       this.updateCarInput.setValue(carName);
       this.updateCarHandler(id);
+    });
+
+    document.addEventListener('carArrived', async () => {
+      this.changeActiveBtn(this.resetBtn, false);
     });
   }
 
