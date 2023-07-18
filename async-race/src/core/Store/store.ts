@@ -1,69 +1,36 @@
-type Observer = {
-  update(): void;
-};
+import { Observable } from './Observable';
 
-export type State = Record<string, string | number>;
+type Subscriber = () => void;
 
-export class Store {
-  private static instance: Store;
-
-  private observers: Observer[] = [];
-
-  public state;
-
-  constructor(initialState?: State) {
-    const state = initialState || {
-      counterGarage: 1,
-      counterWinners: 1,
-      pageName: 'garage',
-      totalCar: 0
-    };
-    this.state = new Proxy(state, {
-      set: (
-        target: typeof state,
-        property: keyof typeof state,
-        value
-      ): boolean => {
-        if (target[property] === value) {
-          return true;
-        }
-
-        target[property] = value;
-
-        this.notifyAll();
-
-        return true;
-      }
-    });
+export class Store<T extends Record<string | symbol, unknown>> {
+  private subscribers = new Map<keyof T, Set<Subscriber>>();
+  public state: T;
+  constructor(initialState: T) {
+    this.state = Observable(initialState, this.runUpdaters.bind(this));
   }
 
-  public static getInstance(): Store {
-    if (!Store.instance) {
-      Store.instance = new Store({
-        counterGarage: 1,
-        counterWinners: 1,
-        pageName: 'garage',
-        totalCar: 0
-      });
+  public subscribe(stateProp: keyof T, component: Subscriber): void {
+    if (!this.subscribers.has(stateProp)) {
+      this.subscribers.set(stateProp, new Set());
     }
-
-    return Store.instance;
+    const listeners = this.subscribers.get(stateProp) ?? new Set();
+    this.subscribers.set(stateProp, listeners.add(component));
   }
 
-  private notifyAll(): void {
-    setTimeout(() => {
-      this.observers.forEach((o) => o.update());
-    }, 0);
-  }
-
-  public updateComponent(): void {
-    this.notifyAll();
-  }
-
-  public addObserver(observer: Observer): void {
-    this.observers.push(observer);
-  }
-  public removeObserver(observer: Observer): void {
-    this.observers = this.observers.filter((obs) => obs !== observer);
+  public runUpdaters(stateProp: keyof T): void {
+    const listeners = this.subscribers.get(stateProp);
+    listeners?.forEach((forceUpdate) => forceUpdate());
   }
 }
+
+type AppState = {
+  totalCar: number;
+  count: number;
+};
+
+const initialState: AppState = {
+  count: 1,
+  totalCar: 0
+};
+
+export const AppStore = new Store(initialState);

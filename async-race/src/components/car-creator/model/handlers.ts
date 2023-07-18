@@ -1,18 +1,9 @@
-import { RaceApi } from '@api/api';
-import { CarResponse } from '@api/interface';
+import { AppStore } from '@core/Store/Store';
 import { generateOneHundredCars } from 'utils/generateOneHundredCars';
 
-export const generateCars = async (): Promise<CarResponse> => {
-  await generateOneHundredCars();
-  const carResponse: CarResponse = await RaceApi.getCars();
+export const generateCars = async (): Promise<void> => {
+  const { length } = await generateOneHundredCars();
 
-  document.dispatchEvent(
-    new CustomEvent('get100cars', {
-      detail: {
-        items: carResponse.items,
-        count: carResponse.count
-      }
-    })
-  );
-  return carResponse;
+  document.dispatchEvent(new CustomEvent('get100cars'));
+  AppStore.state.totalCar += length;
 };

@@ -2,8 +2,7 @@
 
 /* eslint-disable no-return-assign */
 import { RaceApi } from '@api/api';
-import { CarResponse } from '@api/interface';
-import { Store } from '@core/Store/store';
+import { AppStore } from '@core/Store/Store';
 import { BaseComponent } from '@core/base-component';
 
 import { Button } from '@components/button/button';
@@ -13,7 +12,6 @@ import './carCreator.scss';
 import { generateCars } from './model/handlers';
 
 export class CarCreator extends BaseComponent<'section'> {
-  public store = Store.getInstance();
   public carNameInput: Input;
   public updateCarInput: Input;
   public colorCreatePickerCarInput: Input;
@@ -102,10 +100,10 @@ export class CarCreator extends BaseComponent<'section'> {
     return wrapper;
   }
 
-  private async generateBtnHandler(): Promise<CarResponse> {
+  private async generateBtnHandler(): Promise<void> {
     this.generateBtn.node.disabled = true;
     this.generateBtn.node.style.background = 'gray';
-    return generateCars().finally((): void => {
+    generateCars().finally((): void => {
       setTimeout(() => {
         this.generateBtn.node.disabled = false;
         this.generateBtn.node.style.background = '';
@@ -119,15 +117,13 @@ export class CarCreator extends BaseComponent<'section'> {
       const color = this.colorCreatePickerCarInput.getValue();
       if (name.length) {
         await RaceApi.createCar({ name, color });
-        document.dispatchEvent(new CustomEvent('createCar'));
         this.carNameInput.setValue('');
+        AppStore.runUpdaters('count');
       }
     });
   }
 
   public updateCarHandler(id: number): void {
-    console.log(id);
-
     this.updateCarBtn.addListener('click', async () => {
       await RaceApi.updateCar(id, {
         name: this.updateCarInput.getValue(),
@@ -140,7 +136,7 @@ export class CarCreator extends BaseComponent<'section'> {
       });
 
       this.updateCarInput.setValue('');
-      this.store.updateComponent();
+      AppStore.runUpdaters('count');
     });
   }
 

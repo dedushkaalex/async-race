@@ -1,7 +1,7 @@
 import { RaceApi } from '@api/api';
-import { Car, DrivingResult } from '@api/interface';
+import { DrivingResult } from '@api/interface';
 import { LIMIT_GARAGE } from '@constants/index';
-import { Store } from '@core/Store/store';
+import { AppStore } from '@core/Store/Store';
 import { BaseComponent } from '@core/base-component';
 
 import { GarageItem } from '@components/garage-item/garageItem';
@@ -10,41 +10,31 @@ import './garageList.scss';
 
 export class GarageList extends BaseComponent {
   private cars: GarageItem[];
-  public store = Store.getInstance();
-
-  public isRequestSend: boolean;
   constructor() {
     super({
       tagName: 'div',
       classList: ['car-list']
     });
 
-    this.isRequestSend = false;
-    this.cars = [];
+    AppStore.subscribe('count', this.update.bind(this));
+    // TODO: не подписываемся на totalCar, иначе дубль запросов
+    // AppStore.subscribe('totalCar', this.update.bind(this));
+    document.addEventListener('get100cars', () => this.update());
+    document.addEventListener('removeCar', () => this.update());
 
-    this.store.addObserver(this);
+    this.cars = [];
     this.render();
 
     this.customEventHandler();
   }
-  // this.append(...this.cars);
-  // this.node.insertAdjacentHTML('beforeend', loader());
-  // setTimeout(() => {
-  //   this.addTextContent('');
-  // }, 1000);
   public update(): void {
-    // TODO: FIXED РЕОТПРАВКУ ЗАПРОСА
-
-    if (!this.isRequestSend) {
-      this.render();
-    }
+    this.addTextContent('');
+    this.render();
+    console.log('Состояние гаража обновлено:', AppStore.state);
   }
 
   public async render(): Promise<void> {
-    this.isRequestSend = true;
-    this.cars = [];
-    this.generateCars(this.store.state.counterGarage as number);
-    this.isRequestSend = false;
+    this.generateCars(AppStore.state.count);
   }
 
   public async generateCars(page: number): Promise<GarageItem[]> {
@@ -56,8 +46,7 @@ export class GarageList extends BaseComponent {
       { key: '_order', value: 'desc' }
     ]);
     const items = carResponse.count;
-    this.store.state.totalCar = Number(items);
-    console.log(this.store.state.totalCar);
+    AppStore.state.totalCar = Number(items);
 
     carResponse.items.forEach((car) => {
       const carItem = new GarageItem(car.color, car.name, car.id);
@@ -69,18 +58,6 @@ export class GarageList extends BaseComponent {
   }
 
   public customEventHandler(): void {
-    document.addEventListener('get100cars', async (e) => {
-      const target = e as CustomEvent;
-      const arrayCars: GarageItem[] = [];
-      const { items, count } = target.detail;
-      this.store.state.totalCar = count;
-      items.forEach((car: Car) => {
-        const carItem = new GarageItem(car.color, car.name, car.id);
-        arrayCars.push(carItem);
-      });
-      this.append(...arrayCars);
-    });
-
     document.addEventListener('raсeAll', async () => {
       this.raceAll();
     });
@@ -88,6 +65,9 @@ export class GarageList extends BaseComponent {
 
   // eslint-disable-next-line max-lines-per-function
   public async raceAll(): Promise<void> {
+    if (this.cars.length > LIMIT_GARAGE) {
+      this.cars = this.cars.slice(LIMIT_GARAGE);
+    }
     const promisesAll = this.cars.map(async (item) => {
       return RaceApi.startEngine(item.id);
     });
@@ -127,6 +107,7 @@ export class GarageList extends BaseComponent {
         return Promise.reject(new Error(`Response error`));
       }
     );
+    console.log(this.cars);
     const promiseDriveResult = await Promise.any(promisesDriveCar);
     document.dispatchEvent(new CustomEvent('carArrived'));
   }

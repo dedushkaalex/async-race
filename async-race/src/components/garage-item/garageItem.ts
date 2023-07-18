@@ -1,5 +1,5 @@
 import { RaceApi } from '@api/api';
-import { Store } from '@core/Store/store';
+// import { Store } from '@core/Store/store';
 import { BaseComponent } from '@core/base-component';
 import { createSVG } from 'utils/createSvg';
 
@@ -7,9 +7,10 @@ import { Button } from '@components/button/button';
 import { Input } from '@components/input/input';
 
 import './garageItem.style.scss';
+import { AppStore } from '@core/Store/Store';
 
 export class GarageItem extends BaseComponent {
-  public store = Store.getInstance();
+  // public store = Store.getInstance();
   public selectCarBtn: Button;
   public removeCarBtn: Button;
   public startEngineBtn: Button;
@@ -95,8 +96,9 @@ export class GarageItem extends BaseComponent {
     this.removeCarBtn.addListener('click', async () => {
       const response = await RaceApi.deleteCar(this.id);
       if (response) {
-        this.destroy();
-        (this.store.state.totalCar as number) -= 1;
+        // this.destroy();
+        // AppStore.state.totalCar -= 1;
+        document.dispatchEvent(new CustomEvent('removeCar'));
       }
     });
   }

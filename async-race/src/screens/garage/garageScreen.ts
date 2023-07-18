@@ -1,6 +1,5 @@
-import { RaceApi } from '@api/api';
 import { FADE_IN, FADE_OUT } from '@constants/index';
-import { Store } from '@core/Store/store';
+import { AppStore } from '@core/Store/Store';
 import { BaseComponent } from '@core/base-component';
 import { fadeIn, fadeOut } from 'utils/fadeAnimations';
 
@@ -9,7 +8,6 @@ import { GarageList } from '@components/garage-list/garageList';
 
 export class GarageScreen extends BaseComponent {
   public title: BaseComponent<'h1'>;
-  public store = Store.getInstance();
 
   public CarCreator: CarCreator;
   public GarageList: GarageList;
@@ -19,18 +17,14 @@ export class GarageScreen extends BaseComponent {
       classList: ['container']
     });
 
-    this.store.addObserver(this);
+    AppStore.subscribe('totalCar', this.update.bind(this));
     this.CarCreator = new CarCreator();
     this.title = new BaseComponent<'h1'>({
       tagName: 'h1',
       classList: ['title'],
-      textContent: `Garage [${this.store.state.totalCar}]`
+      textContent: `Garage [${AppStore.state.totalCar}]`
     });
     this.GarageList = new GarageList();
-
-    document.addEventListener('createCar', () => {
-      this.store.updateComponent();
-    });
   }
 
   public render(): BaseComponent {
@@ -40,10 +34,10 @@ export class GarageScreen extends BaseComponent {
     return this;
   }
   public update(): void {
-    this.title.addTextContent(`Garage [${this.store.state.totalCar}]`);
-    fadeOut(this.GarageList.node, FADE_OUT);
+    this.title.addTextContent(`Garage [${AppStore.state.totalCar}]`);
     fadeIn(this.GarageList.node, FADE_IN);
-    this.GarageList.addTextContent('');
+    fadeOut(this.GarageList.node, FADE_OUT);
+    this.GarageList.destroy();
     this.append(this.GarageList);
   }
 }

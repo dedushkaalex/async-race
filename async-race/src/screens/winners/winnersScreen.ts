@@ -1,10 +1,10 @@
-import { Store } from '@core/Store/store';
+// import { Store } from '@core/Store/store';
 import { BaseComponent } from '@core/base-component/BaseComponent';
 
 import { WinnersTable } from '@components/winners-table/winnersTable';
 
 export class WinnersScreen extends BaseComponent {
-  public store = Store.getInstance();
+  // public store = Store.getInstance();
   public title: BaseComponent<'h1'>;
   constructor() {
     super({
@@ -15,12 +15,14 @@ export class WinnersScreen extends BaseComponent {
     this.title = new BaseComponent<'h1'>({
       tagName: 'h1',
       classList: ['title'],
-      textContent: `Winners [${this.store.state.totalCar}]`
+      // textContent: `Winners [${this.store.state.totalWinners}]`
     });
   }
   public render(): BaseComponent {
-    this.append(this.title, new WinnersTable());
+    this.append(this.title);
     return this;
   }
-  // public update(): void {}
+  public update(): void {
+    // this.title.addTextContent(`Winners [${this.store.state.totalWinners}]`);
+  }
 }

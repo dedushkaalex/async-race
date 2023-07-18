@@ -3,4 +3,4 @@ export type QueryString = {
   value: number | string;
 };
 
-export type Page = 'Garage' | 'Winners';
+export type Page = '/' | '/winners';

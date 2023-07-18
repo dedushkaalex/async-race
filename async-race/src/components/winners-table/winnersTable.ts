@@ -1,7 +1,7 @@
 import { RaceApi } from '@api/api';
 import { Winner, Winners } from '@api/interface';
 import { LIMIT_WINNERS } from '@constants/index';
-import { Store } from '@core/Store/store';
+// import { Store } from '@core/Store/store';
 import { BaseComponent } from '@core/base-component';
 import { createSVG } from 'utils/createSvg';
 
@@ -9,13 +9,13 @@ import './winners.scss';
 
 export class WinnersTable extends BaseComponent<'table'> {
   public tableHead: BaseComponent<'tr'>;
-  public store = Store.getInstance();
+  // public store = Store.getInstance();
   constructor() {
     super({
       tagName: 'table',
       classList: ['table']
     });
-    this.store.addObserver(this);
+    // this.store.addObserver(this);
 
     this.tableHead = new BaseComponent({
       tagName: 'tr',
@@ -59,8 +59,8 @@ export class WinnersTable extends BaseComponent<'table'> {
     const winners: Winners[] = [];
     const winnerResponse = await RaceApi.getWinners(page, LIMIT_WINNERS);
     const items = winnerResponse.count;
-    this.store.state.totalCar = Number(items);
-    console.log(this.store.state.totalCar);
+    // this.store.state.totalCar = Number(items);
+    // console.log(this.store.state.totalCar);
 
     winnerResponse.items.forEach((winner) => {
       const carItem = this.createWinnerElement(
@@ -68,10 +68,10 @@ export class WinnersTable extends BaseComponent<'table'> {
         winner.time,
         winner.wins
       );
-      cars.push(carItem);
+      // winners.push(carItem);
     });
-    this.cars = this.cars.concat(cars);
-    this.append(...cars);
+    // this.cars = this.cars.concat(cars);
+    // this.append(...cars);
   }
 
   public createWinnerElement(

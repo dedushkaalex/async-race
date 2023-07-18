@@ -1,12 +1,10 @@
 /* eslint-disable new-cap */
-import { Store } from '@core/Store/store';
 import { BaseComponent } from '@core/base-component';
 import { Layout } from '@layout/layout';
 import { NotFoundScreen } from '@screens/not-found/notFoundScreen';
 import { ROUTES, TRoutes } from 'router/routes.data';
 
 export class Router {
-  public store = Store.getInstance();
   private routes;
   private currentRoute: TRoutes | null;
   private layout: Layout | null = null;
@@ -37,12 +35,9 @@ export class Router {
 
         if (link) {
           this.navigate(link[0]);
-          this.store.state.pageName = link[0];
         } else {
           this.navigate(link);
-          this.store.state.pageName = link;
         }
-        console.log(this.store.state);
       }
     });
   }
