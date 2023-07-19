@@ -97,9 +97,13 @@ export class GarageList extends BaseComponent {
         return Promise.reject(new Error(`Response error`));
       }
     );
-    const promiseDriveResult = await Promise.any(promisesDriveCar);
-    this.saveResultCar(promiseDriveResult);
-    console.log(promiseDriveResult);
+    try {
+      const promiseDriveResult = await Promise.any(promisesDriveCar);
+      this.saveResultCar(promiseDriveResult);
+      console.log(promiseDriveResult);
+    } catch (error) {
+      console.log('Все машины сломались');
+    }
 
     document.dispatchEvent(new CustomEvent('carArrived'));
   }
@@ -107,14 +111,10 @@ export class GarageList extends BaseComponent {
   private async saveResultCar(
     driveResult: DriveResult | undefined
   ): Promise<void> {
-    try {
-      const { carId, time } = driveResult as DriveResult;
-      await saveWinner({ id: carId, time });
-      // TODO: описать модалку
-      // TODO: удалить модалку
-      // TODO: обновить страницу
-    } catch (error) {
-      console.log('Все машины сломались');
-    }
+    const { carId, time } = driveResult as DriveResult;
+    await saveWinner({ id: carId, time });
+    // TODO: описать модалку
+    // TODO: удалить модалку
+    // TODO: обновить страницу
   }
 }

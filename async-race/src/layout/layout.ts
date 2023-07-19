@@ -1,4 +1,3 @@
-// import { Store } from '@core/Store/store';
 import { BaseComponent } from '@core/base-component';
 
 import { Header } from './header/header';

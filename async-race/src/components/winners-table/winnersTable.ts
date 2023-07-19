@@ -47,10 +47,17 @@ export class WinnersTable extends BaseComponent<'table'> {
         })
       ]
     });
+
+    AppStore.subscribe('countWinners', this.update.bind(this));
+
     this.render();
   }
 
-  public update(): void {}
+  public update(): void {
+    this.addTextContent('');
+    this.render();
+    console.log('Состояние таблицы лидеров обновлено:', AppStore.state);
+  }
   public render(): void {
     this.append(this.tableHead);
     this.generateWinners(AppStore.state.countWinners);
@@ -60,7 +67,7 @@ export class WinnersTable extends BaseComponent<'table'> {
     const winners: BaseComponent<'tr'>[] = [];
     const winnerResponse = await RaceApi.getWinners(page, LIMIT_WINNERS);
     const items = winnerResponse.count;
-    AppStore.state.countWinners = Number(items);
+    AppStore.state.totalWinners = Number(items);
 
     winnerResponse.items.forEach((winner) => {
       const carItem = this.createWinnerElement(

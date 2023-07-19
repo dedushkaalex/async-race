@@ -28,13 +28,15 @@ type AppState = {
   count: number;
   countWinners: number;
   totalWinners: number;
+  page: string;
 };
 
 const initialState: AppState = {
   count: 1,
   totalCar: 0,
   countWinners: 1,
-  totalWinners: 0
+  totalWinners: 0,
+  page: '/'
 };
 
 export const AppStore = new Store(initialState);

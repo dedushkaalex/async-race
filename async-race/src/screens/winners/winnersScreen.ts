@@ -11,19 +11,20 @@ export class WinnersScreen extends BaseComponent {
       tagName: 'div',
       classList: ['container']
     });
-    // this.store.addObserver(this);
     this.title = new BaseComponent<'h1'>({
       tagName: 'h1',
       classList: ['title'],
       textContent: `Winners [${AppStore.state.totalWinners}]`
     });
+
+    AppStore.subscribe('totalWinners', this.update.bind(this));
   }
   public render(): BaseComponent {
     this.append(this.title, new WinnersTable());
     return this;
   }
   public update(): void {
-    // this.title.addTextContent(`Winners [${this.store.state.totalWinners}]`);
+    this.title.addTextContent(`Winners [${AppStore.state.totalWinners}]`);
     console.log('Состояние winners обновлено:', AppStore.state);
   }
 }

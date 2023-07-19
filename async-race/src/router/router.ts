@@ -1,4 +1,5 @@
 /* eslint-disable new-cap */
+import { AppStore } from '@core/Store/Store';
 import { BaseComponent } from '@core/base-component';
 import { Layout } from '@layout/layout';
 import { NotFoundScreen } from '@screens/not-found/notFoundScreen';
@@ -31,7 +32,6 @@ export class Router {
         e.preventDefault();
 
         const link = target.href.match(/\/([^\\/]+)$/g) || '/';
-        console.log(link);
 
         if (link) {
           this.navigate(link[0]);
@@ -51,6 +51,8 @@ export class Router {
   }
   private handleRouteChange(): void {
     const path = Router.getCurrentPath() || '/';
+    AppStore.state.page = path;
+    console.log(AppStore.state.page);
 
     let route = this.routes.find((r) => r.path === path);
 
@@ -71,8 +73,6 @@ export class Router {
     const component = new this.currentRoute.component();
 
     if (!this.layout) {
-      console.log(2);
-
       this.layout = new Layout(component.render());
       (document.getElementById('app') as HTMLDivElement).append(
         this.layout.render()
