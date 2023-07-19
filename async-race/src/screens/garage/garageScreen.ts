@@ -25,6 +25,7 @@ export class GarageScreen extends BaseComponent {
       textContent: `Garage [${AppStore.state.totalCar}]`
     });
     this.GarageList = new GarageList();
+    this.raceAllEventHandler();
   }
 
   public render(): BaseComponent {
@@ -39,5 +40,11 @@ export class GarageScreen extends BaseComponent {
     fadeOut(this.GarageList.node, FADE_OUT);
     this.GarageList.destroy();
     this.append(this.GarageList);
+  }
+
+  public raceAllEventHandler(): void {
+    this.CarCreator.rageAllBtn.addListener('click', async () =>
+      this.GarageList.raceAll.call(this.GarageList)
+    );
   }
 }

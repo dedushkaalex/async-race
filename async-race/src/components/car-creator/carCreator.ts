@@ -37,7 +37,7 @@ export class CarCreator extends BaseComponent<'section'> {
       this.generateBtnHandler()
     );
     this.rageAllBtn = new Button('Raсe', ['red'], () => {
-      document.dispatchEvent(new CustomEvent('raсeAll'));
+      // document.dispatchEvent(new CustomEvent('raceAll'));
       this.changeActiveBtn(this.rageAllBtn, true);
       this.changeActiveBtn(this.resetBtn, true);
       this.changeActiveBtn(this.createCarBtn, true);

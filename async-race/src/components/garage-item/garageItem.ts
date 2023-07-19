@@ -1,4 +1,5 @@
 import { RaceApi } from '@api/api';
+import { AppStore } from '@core/Store/Store';
 // import { Store } from '@core/Store/store';
 import { BaseComponent } from '@core/base-component';
 import { createSVG } from 'utils/createSvg';
@@ -7,7 +8,6 @@ import { Button } from '@components/button/button';
 import { Input } from '@components/input/input';
 
 import './garageItem.style.scss';
-import { AppStore } from '@core/Store/Store';
 
 export class GarageItem extends BaseComponent {
   // public store = Store.getInstance();

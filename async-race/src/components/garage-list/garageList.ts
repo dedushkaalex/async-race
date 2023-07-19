@@ -24,8 +24,6 @@ export class GarageList extends BaseComponent {
 
     this.cars = [];
     this.render();
-
-    this.customEventHandler();
   }
   public update(): void {
     this.addTextContent('');
@@ -52,22 +50,13 @@ export class GarageList extends BaseComponent {
       const carItem = new GarageItem(car.color, car.name, car.id);
       cars.push(carItem);
     });
-    this.cars = this.cars.concat(cars);
+    this.cars = [...cars];
     this.append(...cars);
     return cars;
   }
 
-  public customEventHandler(): void {
-    document.addEventListener('raсeAll', async () => {
-      this.raceAll();
-    });
-  }
-
   // eslint-disable-next-line max-lines-per-function
   public async raceAll(): Promise<void> {
-    if (this.cars.length > LIMIT_GARAGE) {
-      this.cars = this.cars.slice(LIMIT_GARAGE);
-    }
     const promisesAll = this.cars.map(async (item) => {
       return RaceApi.startEngine(item.id);
     });
@@ -107,7 +96,6 @@ export class GarageList extends BaseComponent {
         return Promise.reject(new Error(`Response error`));
       }
     );
-    console.log(this.cars);
     const promiseDriveResult = await Promise.any(promisesDriveCar);
     document.dispatchEvent(new CustomEvent('carArrived'));
   }
