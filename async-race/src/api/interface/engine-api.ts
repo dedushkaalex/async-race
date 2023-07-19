@@ -7,7 +7,7 @@ export interface DriveStatus {
   success: boolean;
 }
 
-export interface DrivingResult {
+export interface DriveResult {
   success: boolean;
   carId: number;
   time: number;

@@ -1,4 +1,4 @@
-import { Endpoint, EngineStatus } from '@api/enum';
+import { Endpoint, EngineStatus, ServerErrorCode } from '@api/enum';
 import {
   Car,
   CarResponse,
@@ -179,12 +179,12 @@ export class RaceApi {
     };
   };
 
-  public static getWinner = async (
-    id: number
-  ): Promise<Record<string, null> | Winner> => {
+  public static getWinner = async (id: number): Promise<Winner> => {
     const response = await fetch(`${BASE_URL}${Endpoint.Winners}/${id}`);
-
-    const data = await response.json();
+    if (response.status === ServerErrorCode.NotFound) {
+      throw new Error(`${ServerErrorCode.NotFound}`);
+    }
+    const data: Winner = await response.json();
 
     return data;
   };
