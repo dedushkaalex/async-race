@@ -70,10 +70,14 @@ export class WinnersTable extends BaseComponent<'table'> {
     AppStore.state.totalWinners = Number(items);
 
     winnerResponse.items.forEach((winner) => {
+      console.log(winner);
+
       const carItem = this.createWinnerElement(
         winner.id,
         winner.time,
-        winner.wins
+        winner.wins,
+        winner.carName,
+        winner.color
       );
       winners.push(carItem);
     });
@@ -84,9 +88,13 @@ export class WinnersTable extends BaseComponent<'table'> {
   public createWinnerElement(
     id: number,
     time: number,
-    wins: number
+    wins: number,
+    carName: string,
+    color: string
   ): BaseComponent<'tr'> {
-    const svg = createSVG('red');
+    console.log(carName, color);
+
+    const svg = createSVG(color || '#e6e6fa');
     const svgWrapper = new BaseComponent({
       tagName: 'td',
       classList: ['td', 'svg-wrapper']
@@ -105,7 +113,7 @@ export class WinnersTable extends BaseComponent<'table'> {
         new BaseComponent({
           tagName: 'td',
           classList: ['td'],
-          textContent: 'BMW'
+          textContent: carName || 'Tesla'
         }),
         new BaseComponent({
           tagName: 'td',

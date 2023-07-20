@@ -11,4 +11,6 @@ export interface DriveResult {
   success: boolean;
   carId: number;
   time: number;
+  color: string;
+  carName: string;
 }

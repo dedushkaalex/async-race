@@ -90,7 +90,13 @@ export class GarageList extends BaseComponent {
               1000
             ).toFixed(2)
           );
-          return { success, carId: item.id, time };
+          return {
+            success,
+            carId: item.id,
+            time,
+            carName: item.carName.getTextContent(),
+            color: item.color
+          };
         }
         this.cars[index].changeActiveBtn(this.cars[index].startEngineBtn, true);
         this.cars[index].changeActiveBtn(this.cars[index].stopEngineBtn, false);
@@ -99,6 +105,8 @@ export class GarageList extends BaseComponent {
     );
     try {
       const promiseDriveResult = await Promise.any(promisesDriveCar);
+      console.log(promiseDriveResult);
+
       this.saveResultCar(promiseDriveResult);
       console.log(promiseDriveResult);
     } catch (error) {
@@ -111,8 +119,8 @@ export class GarageList extends BaseComponent {
   private async saveResultCar(
     driveResult: DriveResult | undefined
   ): Promise<void> {
-    const { carId, time } = driveResult as DriveResult;
-    await saveWinner({ id: carId, time });
+    const { carId, time, carName, color } = driveResult as DriveResult;
+    await saveWinner({ id: carId, time, carName, color });
     // TODO: описать модалку
     // TODO: удалить модалку
     // TODO: обновить страницу

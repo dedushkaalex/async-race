@@ -226,7 +226,7 @@ export class RaceApi {
 
   public static updateWinner = async (
     id: number,
-    body: Pick<Winner, 'time' | 'wins'>
+    body: Pick<Winner, 'time' | 'wins' | 'color' | 'carName'>
   ): Promise<Winner> => {
     let response;
     try {

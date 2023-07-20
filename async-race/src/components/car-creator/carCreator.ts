@@ -4,6 +4,7 @@
 import { RaceApi } from '@api/api';
 import { AppStore } from '@core/Store/Store';
 import { BaseComponent } from '@core/base-component';
+import { updateWinner } from 'utils/saveWinner';
 
 import { Button } from '@components/button/button';
 import { Input } from '@components/input/input';
@@ -133,6 +134,11 @@ export class CarCreator extends BaseComponent<'section'> {
           this.changeActiveBtn(this.updateCarBtn, true);
           this.changeActiveBtn(this.updateCarInput, true);
         }, 2000);
+      });
+      await updateWinner({
+        id,
+        carName: this.updateCarInput.getValue(),
+        color: this.colorUpdatePickerCarInput.getValue()
       });
 
       this.updateCarInput.setValue('');

@@ -96,8 +96,7 @@ export class GarageItem extends BaseComponent {
     this.removeCarBtn.addListener('click', async () => {
       const response = await RaceApi.deleteCar(this.id);
       if (response) {
-        // this.destroy();
-        // AppStore.state.totalCar -= 1;
+        await RaceApi.deleteWinner(this.id);
         document.dispatchEvent(new CustomEvent('removeCar'));
       }
     });
