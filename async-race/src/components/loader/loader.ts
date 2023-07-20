@@ -1,3 +1,5 @@
+import './loader.scss';
+
 export const loader = (): string => {
   const loaderTemplate = `
   <div class="loader">

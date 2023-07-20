@@ -1,5 +1,6 @@
 @import './reset';
 @import './variables';
+@import './mixins';
 
 .container {
   padding: 0 45px;
@@ -16,6 +17,7 @@ body {
 	color: $white;
 	font-size: 17px;
 	line-height: 1.6;
+  @include scrollbars(10px, $text-gray, $bg-block);
 }
 
 input {

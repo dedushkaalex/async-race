@@ -1,11 +1,13 @@
 import { RaceApi } from '@api/api';
 import { DriveResult } from '@api/interface';
-import { LIMIT_GARAGE } from '@constants/index';
+import { FADE_IN, FADE_OUT, LIMIT_GARAGE } from '@constants/index';
 import { AppStore } from '@core/Store/Store';
 import { BaseComponent } from '@core/base-component';
+import { fadeIn, fadeOut } from 'utils/fadeAnimations';
 import { saveWinner } from 'utils/saveWinner';
 
 import { GarageItem } from '@components/garage-item/garageItem';
+import { Modal } from '@components/modal-winner/modalWinner';
 
 import './garageList.scss';
 
@@ -27,8 +29,9 @@ export class GarageList extends BaseComponent {
     this.render();
   }
   public update(): void {
-    this.addTextContent('');
-    this.render();
+    // this.addTextContent('');
+    fadeOut(this.node, FADE_OUT);
+    fadeIn(this.node, FADE_IN, () => this.render());
     console.log('Состояние гаража обновлено:', AppStore.state);
   }
 
@@ -121,6 +124,8 @@ export class GarageList extends BaseComponent {
   ): Promise<void> {
     const { carId, time, carName, color } = driveResult as DriveResult;
     await saveWinner({ id: carId, time, carName, color });
+    const modal = new Modal(carName, time);
+    this.append(modal);
     // TODO: описать модалку
     // TODO: удалить модалку
     // TODO: обновить страницу

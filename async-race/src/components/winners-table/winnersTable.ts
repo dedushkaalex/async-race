@@ -1,9 +1,10 @@
 /* eslint-disable max-lines-per-function */
 import { RaceApi } from '@api/api';
-import { LIMIT_WINNERS } from '@constants/index';
+import { FADE_IN, FADE_OUT, LIMIT_WINNERS } from '@constants/index';
 import { AppStore } from '@core/Store/Store';
 import { BaseComponent } from '@core/base-component';
 import { createSVG } from 'utils/createSvg';
+import { fadeIn, fadeOut } from 'utils/fadeAnimations';
 
 import './winners.scss';
 
@@ -49,13 +50,13 @@ export class WinnersTable extends BaseComponent<'table'> {
     });
 
     AppStore.subscribe('countWinners', this.update.bind(this));
-
-    this.render();
+    fadeOut(this.node, FADE_OUT);
+    fadeIn(this.node, FADE_IN, () => this.render());
   }
 
   public update(): void {
-    this.addTextContent('');
-    this.render();
+    fadeOut(this.node, FADE_OUT);
+    fadeIn(this.node, FADE_IN, () => this.render());
     console.log('Состояние таблицы лидеров обновлено:', AppStore.state);
   }
   public render(): void {

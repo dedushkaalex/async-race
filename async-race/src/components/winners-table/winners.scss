@@ -1,6 +1,8 @@
+@import '@styles/variables';
+
 .table {
-  color: #fff;
-  background-color: maroon;
+  color: $white;
+  background-color: $primary;
   border: none;
   margin-top: 20px;
   width: 50%;
@@ -12,13 +14,15 @@
 }
 
 .table .th {
-  background-color: maroon;
+  background-color:  $primary;
   padding: 5px;
   border-radius: 3px;
 }
 
 .tr {
-  background-color: #000;
+  color: $text-gray;
+  font-weight: bold;
+  background-color: $light-gray;
   padding: 5px;
   border: 1px solid #b9d024;
   border-collapse: collapse;

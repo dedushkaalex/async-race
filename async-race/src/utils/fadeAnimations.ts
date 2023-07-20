@@ -7,7 +7,6 @@ export const fadeIn = (
   callback?: Callback<HTMLElement>
 ): void => {
   setTimeout(() => {
-    // element.textContent = ``;
     if (callback) {
       callback();
     }
@@ -17,6 +16,8 @@ export const fadeIn = (
 };
 
 export const fadeOut = (element: HTMLElement, timeout: number): void => {
+  console.log('fadeOut');
+  element.textContent = ``;
   element.style.opacity = `0`;
   element.style.transition = `opacity ${timeout}ms cubic-bezier(0.86, 0, 0.07, 1)`;
 };
