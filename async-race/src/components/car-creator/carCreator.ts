@@ -8,9 +8,13 @@ import { updateWinner } from 'utils/saveWinner';
 
 import { Button } from '@components/button/button';
 import { Input } from '@components/input/input';
+import { Toast } from '@components/toast/toast';
 
 import './carCreator.scss';
 import { generateCars } from './model/handlers';
+
+import done from '@/assets/img/icons/done.svg';
+import update from '@/assets/img/icons/update.svg';
 
 export class CarCreator extends BaseComponent<'section'> {
   public carNameInput: Input;
@@ -109,6 +113,9 @@ export class CarCreator extends BaseComponent<'section'> {
         this.generateBtn.node.disabled = false;
         this.generateBtn.node.style.background = '';
       }, 3000);
+
+      const toast = new Toast('Success', 'Cars successfully generated', done);
+      this.append(toast);
     });
   }
 
@@ -119,6 +126,8 @@ export class CarCreator extends BaseComponent<'section'> {
       if (name.length) {
         await RaceApi.createCar({ name, color });
         this.carNameInput.setValue('');
+        const toast = new Toast('Success', 'Car successfully created', done);
+        this.append(toast);
         AppStore.runUpdaters('count');
       }
     });
@@ -142,6 +151,8 @@ export class CarCreator extends BaseComponent<'section'> {
       });
 
       this.updateCarInput.setValue('');
+      const toast = new Toast('Success', 'Car successfully updated', update);
+      this.append(toast);
       AppStore.runUpdaters('count');
     });
   }
