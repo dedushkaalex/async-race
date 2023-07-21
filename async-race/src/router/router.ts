@@ -52,7 +52,6 @@ export class Router {
   private handleRouteChange(): void {
     const path = Router.getCurrentPath() || '/';
     AppStore.state.page = path;
-    console.log(AppStore.state.page);
 
     let route = this.routes.find((r) => r.path === path);
 

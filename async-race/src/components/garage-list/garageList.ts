@@ -20,8 +20,6 @@ export class GarageList extends BaseComponent {
     });
 
     AppStore.subscribe('count', this.update.bind(this));
-    // TODO: не подписываемся на totalCar, иначе дубль запросов
-    // AppStore.subscribe('totalCar', this.update.bind(this));
     document.addEventListener('get100cars', () => this.update());
     document.addEventListener('removeCar', () => this.update());
 
@@ -29,10 +27,8 @@ export class GarageList extends BaseComponent {
     this.render();
   }
   public update(): void {
-    // this.addTextContent('');
     fadeOut(this.node, FADE_OUT);
     fadeIn(this.node, FADE_IN, () => this.render());
-    console.log('Состояние гаража обновлено:', AppStore.state);
   }
 
   public async render(): Promise<void> {
@@ -71,12 +67,10 @@ export class GarageList extends BaseComponent {
     );
     try {
       const promiseDriveResult = await Promise.any(promisesDriveCar);
-      console.log(promiseDriveResult);
 
       this.saveResultCar(promiseDriveResult);
-      console.log(promiseDriveResult);
     } catch (error) {
-      console.log('Все машины сломались');
+      console.error('Все машины сломались');
     }
 
     document.dispatchEvent(new CustomEvent('carArrived'));

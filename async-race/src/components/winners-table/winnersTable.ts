@@ -76,16 +76,15 @@ export class WinnersTable extends BaseComponent<'table'> {
     });
 
     AppStore.subscribe('countWinners', this.update.bind(this));
-    // fadeOut(this.node, FADE_OUT);
-    // fadeIn(this.node, FADE_IN, () => );
-    this.render();
+    fadeOut(this.node, FADE_OUT);
+    fadeIn(this.node, FADE_IN, () => this.render());
+
     this.setSortListener();
   }
 
   public update(): void {
     fadeOut(this.node, FADE_OUT);
     fadeIn(this.node, FADE_IN, () => this.render());
-    console.log('Состояние таблицы лидеров обновлено:', AppStore.state);
   }
   public render(): void {
     this.append(this.tableHead);
@@ -104,8 +103,6 @@ export class WinnersTable extends BaseComponent<'table'> {
     AppStore.state.totalWinners = Number(items);
 
     winnerResponse.items.forEach((winner) => {
-      console.log(winner);
-
       const carItem = this.createWinnerElement(
         winner.id,
         winner.time,
@@ -126,8 +123,6 @@ export class WinnersTable extends BaseComponent<'table'> {
     carName: string,
     color: string
   ): BaseComponent<'tr'> {
-    console.log(carName, color);
-
     const svg = createSVG(color || '#e6e6fa');
     const svgWrapper = new BaseComponent({
       tagName: 'td',

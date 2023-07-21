@@ -18,6 +18,7 @@ export class Header extends BaseComponent<'header'> {
     };
 
     this.render();
+    this.setListener();
   }
 
   public render(): void {
@@ -49,5 +50,11 @@ export class Header extends BaseComponent<'header'> {
     }
 
     return nav;
+  }
+
+  public setListener(): void {
+    this.links.winners.node.addEventListener('click', () => {
+      document.dispatchEvent(new CustomEvent('changeLink'));
+    });
   }
 }

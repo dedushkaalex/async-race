@@ -43,11 +43,9 @@ export class Pagination extends BaseComponent {
     if (page === '/') {
       lastPage = this.getLastPage(AppStore.state.totalCar);
       this.pageCounter.addTextContent(`${this.getCurrPage()}/${lastPage}`);
-      console.log('Слежу за пагинацией Garage', AppStore.state);
     } else {
       lastPage = this.getLastPage(AppStore.state.totalWinners);
       this.pageCounter.addTextContent(`${this.getCurrPage()}/${lastPage}`);
-      console.log('Слежу за пагинацией Winners', AppStore.state);
     }
 
     this.highlightBtnChecker();

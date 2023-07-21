@@ -60,3 +60,11 @@ input[type='number'] {
   bottom: -40%;
   z-index: 20;
 }
+
+@media screen and (max-width: 862px) {
+  .carSvg {
+    width: 100px;
+    height: 100px;
+    bottom: -23%;
+  }
+}

@@ -25,6 +25,5 @@ export class WinnersScreen extends BaseComponent {
   }
   public update(): void {
     this.title.addTextContent(`Winners [${AppStore.state.totalWinners}]`);
-    console.log('Состояние winners обновлено:', AppStore.state);
   }
 }

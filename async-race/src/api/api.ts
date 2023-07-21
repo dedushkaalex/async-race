@@ -136,6 +136,9 @@ export class RaceApi {
     document.addEventListener('reset', () => {
       instance.abort();
     });
+    document.addEventListener('changeLink', () => {
+      instance.abort();
+    });
     try {
       const response = await fetch(
         `${BASE_URL}${Endpoint.Engine}?id=${id}&status=${EngineStatus.Drive}`,

@@ -58,6 +58,11 @@ export class CarCreator extends BaseComponent<'section'> {
     this.changeActiveBtn(this.updateCarInput, true);
     this.setListeners();
     this.createCarHandler();
+    this.carNameInput.addListener(
+      'input',
+      () => (AppStore.state.inputName = this.carNameInput.getValue().trim())
+    );
+    this.carNameInput.setValue(AppStore.state.inputName);
   }
 
   public render(): void {

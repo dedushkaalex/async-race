@@ -153,3 +153,13 @@
 .track::-ms-thumb {
   transition: left 1s linear;
 }
+
+@media screen and (max-width: 862px) {
+  .track::after {
+    right: 25%;
+  }
+
+  .carName {
+    font-size: 1.2rem;
+  }
+}
