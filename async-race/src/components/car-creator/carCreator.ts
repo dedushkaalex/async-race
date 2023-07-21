@@ -1,5 +1,3 @@
-/* eslint-disable max-lines-per-function */
-
 /* eslint-disable no-return-assign */
 import { RaceApi } from '@api/api';
 import { AppStore } from '@core/Store/Store';
@@ -58,21 +56,8 @@ export class CarCreator extends BaseComponent<'section'> {
 
     this.changeActiveBtn(this.updateCarBtn, true);
     this.changeActiveBtn(this.updateCarInput, true);
-
+    this.setListeners();
     this.createCarHandler();
-
-    document.addEventListener('selectCar', (e) => {
-      const target = e as CustomEvent;
-      const { id, carName } = target.detail;
-      this.changeActiveBtn(this.updateCarInput, false);
-      this.changeActiveBtn(this.updateCarBtn, false);
-      this.updateCarInput.setValue(carName);
-      this.updateCarHandler(id);
-    });
-
-    document.addEventListener('carArrived', async () => {
-      this.changeActiveBtn(this.resetBtn, false);
-    });
   }
 
   public render(): void {
@@ -169,5 +154,20 @@ export class CarCreator extends BaseComponent<'section'> {
       element.removeAttribute('disabled');
       element.removeClass('disabled');
     }
+  }
+
+  private setListeners(): void {
+    document.addEventListener('selectCar', (e) => {
+      const target = e as CustomEvent;
+      const { id, carName } = target.detail;
+      this.changeActiveBtn(this.updateCarInput, false);
+      this.changeActiveBtn(this.updateCarBtn, false);
+      this.updateCarInput.setValue(carName);
+      this.updateCarHandler(id);
+    });
+
+    document.addEventListener('carArrived', async () => {
+      this.changeActiveBtn(this.resetBtn, false);
+    });
   }
 }

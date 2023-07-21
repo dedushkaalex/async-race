@@ -1,6 +1,4 @@
 import { RaceApi } from '@api/api';
-import { AppStore } from '@core/Store/Store';
-// import { Store } from '@core/Store/store';
 import { BaseComponent } from '@core/base-component';
 import { createSVG } from 'utils/createSvg';
 

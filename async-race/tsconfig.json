@@ -23,6 +23,7 @@
       "@layout/*": ["layout/*"],
       "@screens/*": ["screens/*"],
       "@api/*": ["api/*"],
+      "@assets/*": ["assets/*"],
     },
 
     /* Linting */

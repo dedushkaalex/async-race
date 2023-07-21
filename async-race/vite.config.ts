@@ -19,6 +19,7 @@ export default defineConfig({
       { find: '@layout', replacement: fileURLToPath(new URL('./src/layout/', import.meta.url)) },
       { find: '@screens', replacement: fileURLToPath(new URL('./src/screens/', import.meta.url)) },
       { find: '@api', replacement: fileURLToPath(new URL('./src/api/', import.meta.url)) },
+      { find: '@assets', replacement: fileURLToPath(new URL('./src/assets/', import.meta.url)) },
       // { find: '@assets', replacement: fileURLToPath(new URL('./src/shared/assets', import.meta.url)) },
       // { find: '@cmp', replacement: fileURLToPath(new URL('./src/shared/cmp', import.meta.url)) },
       // { find: '@stores', replacement: fileURLToPath(new URL('./src/shared/stores', import.meta.url)) },

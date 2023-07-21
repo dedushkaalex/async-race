@@ -1,5 +1,5 @@
 import { RaceApi } from '@api/api';
-import { DriveResult } from '@api/interface';
+import { DriveResult, Engine } from '@api/interface';
 import { FADE_IN, FADE_OUT, LIMIT_GARAGE } from '@constants/index';
 import { AppStore } from '@core/Store/Store';
 import { BaseComponent } from '@core/base-component';
@@ -59,13 +59,30 @@ export class GarageList extends BaseComponent {
     return cars;
   }
 
-  // eslint-disable-next-line max-lines-per-function
   public async raceAll(): Promise<void> {
     const promisesAll = this.cars.map(async (item) => {
       return RaceApi.startEngine(item.id);
     });
 
     const arrayEngineCharacter = await Promise.all(promisesAll);
+    this.startDriveCars(arrayEngineCharacter);
+    const promisesDriveCar = await this.getDriveCarPromises(
+      arrayEngineCharacter
+    );
+    try {
+      const promiseDriveResult = await Promise.any(promisesDriveCar);
+      console.log(promiseDriveResult);
+
+      this.saveResultCar(promiseDriveResult);
+      console.log(promiseDriveResult);
+    } catch (error) {
+      console.log('Все машины сломались');
+    }
+
+    document.dispatchEvent(new CustomEvent('carArrived'));
+  }
+
+  private startDriveCars(arrayEngineCharacter: Engine[]): void {
     arrayEngineCharacter.forEach((engine, index) => {
       this.cars[index].changeActiveBtn(this.cars[index].startEngineBtn, true);
       this.cars[index].changeActiveBtn(this.cars[index].stopEngineBtn, false);
@@ -74,9 +91,13 @@ export class GarageList extends BaseComponent {
       this.cars[index].track.node.max = String(distance);
       this.cars[index].animationSpeed(distance, duration);
     });
+  }
 
+  private async getDriveCarPromises(
+    arrayEngineCharacter: Engine[]
+  ): Promise<Promise<DriveResult>[]> {
     const promisesDriveCar = this.cars.map(
-      async (item, index): Promise<DriveResult | undefined> => {
+      async (item, index): Promise<DriveResult> => {
         const { success } = await RaceApi.startDrive(
           item.id,
           new AbortController()
@@ -106,17 +127,7 @@ export class GarageList extends BaseComponent {
         return Promise.reject(new Error(`Response error`));
       }
     );
-    try {
-      const promiseDriveResult = await Promise.any(promisesDriveCar);
-      console.log(promiseDriveResult);
-
-      this.saveResultCar(promiseDriveResult);
-      console.log(promiseDriveResult);
-    } catch (error) {
-      console.log('Все машины сломались');
-    }
-
-    document.dispatchEvent(new CustomEvent('carArrived'));
+    return promisesDriveCar;
   }
 
   private async saveResultCar(
